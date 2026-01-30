@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Dwell brand mark (same SVG path as USA repo Navbar).
  * Use className to control sizing via CSS.

@@ -1,4 +1,5 @@
 import { LayoutGrid, Building2, Users, PieChart, Plus, MoreVertical } from 'lucide-react';
+import DwellLogo from '../components/DwellLogo';
 import './BuilderDashboard.css';
 
 const PROJECTS = [
@@ -10,7 +11,10 @@ export const BuilderDashboard = () => {
     return (
         <div className="builder-container">
             <aside className="builder-sidebar">
-                <div className="builder-logo">DWELL BUILDER</div>
+                <div className="builder-logo">
+                    <DwellLogo className="logo-icon" />
+                    <span className="logo-text">DWELL BUILDER</span>
+                </div>
                 <nav className="builder-nav">
                     <div className="nav-item active"><LayoutGrid size={18} /> Projects</div>
                     <div className="nav-item"><Building2 size={18} /> Inventory</div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ShieldAlert, CheckCircle2, XCircle, Clock, Video, Settings, Activity, FileText, ShieldCheck, Search, ArrowUpRight } from 'lucide-react';
+import DwellLogo from '../components/DwellLogo';
 import './AdminDashboard.css';
 
 const MOCK_QUEUE = [
@@ -20,7 +21,10 @@ export const AdminDashboard = () => {
     return (
         <div className="admin-container">
             <aside className="admin-sidebar">
-                <div className="admin-logo">DWELL ADMIN</div>
+                <div className="admin-logo">
+                    <DwellLogo className="logo-icon" />
+                    <span className="logo-text">DWELL ADMIN</span>
+                </div>
                 <nav className="admin-nav">
                     <div className={`nav-item ${activeTab === 'queue' ? 'active' : ''}`} onClick={() => setActiveTab('queue')}>
                         <Clock size={18} /> Verification Queue

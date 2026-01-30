@@ -39,6 +39,11 @@
     color: #0f172a;
 }
 
+.brand-logo .logo-icon {
+    width: 24px;
+    height: 24px;
+}
+
 .brand-text {
     font-size: 1.25rem;
     font-weight: 700;

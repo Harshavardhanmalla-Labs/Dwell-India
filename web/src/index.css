@@ -3,29 +3,37 @@
 
 :root {
   /* Brand Colors - HSL */
-  --color-primary: 220 90% 56%; /* Vivid Blue */
+  --color-primary: 220 90% 56%;
+  /* Vivid Blue */
   --color-primary-dark: 220 90% 46%;
-  --color-secondary: 160 84% 39%; /* Verified Green */
-  --color-accent: 330 80% 60%; /* Vibrant Pink/Red for highlights */
-  
+  --color-secondary: 160 84% 39%;
+  /* Verified Green */
+  --color-accent: 330 80% 60%;
+  /* Vibrant Pink/Red for highlights */
+
+  /* Dwell Logo Color */
+  --dwell-accent: #2563eb;
+  /* Primary blue for logo */
+
   /* Neutral Colors */
-  --color-bg-base: 220 20% 98%; /* Off-white background */
+  --color-bg-base: 220 20% 98%;
+  /* Off-white background */
   --color-bg-surface: 0 0% 100%;
   --color-text-main: 220 40% 10%;
   --color-text-muted: 220 20% 40%;
   --color-border: 220 20% 90%;
-  
+
   /* UI Tokens */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-full: 9999px;
-  
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-  --shadow-premium: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-  
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Outfit', system-ui, sans-serif;
 }
@@ -33,11 +41,11 @@
 /* Dark Mode Support (Future proof) */
 @media (prefers-color-scheme: dark) {
   :root {
-     --color-bg-base: 220 30% 8%;
-     --color-bg-surface: 220 30% 12%;
-     --color-text-main: 220 20% 98%;
-     --color-text-muted: 220 20% 70%;
-     --color-border: 220 20% 20%;
+    --color-bg-base: 220 30% 8%;
+    --color-bg-surface: 220 30% 12%;
+    --color-text-main: 220 20% 98%;
+    --color-text-muted: 220 20% 70%;
+    --color-border: 220 20% 20%;
   }
 }
 
@@ -55,7 +63,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
@@ -63,12 +76,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Typography Utilities */
-.text-display-lg { font-size: 3.5rem; font-weight: 800; }
-.text-display-md { font-size: 2.5rem; font-weight: 700; }
-.text-title-lg { font-size: 1.5rem; font-weight: 600; }
-.text-title-md { font-size: 1.25rem; font-weight: 600; }
-.text-body { font-size: 1rem; }
-.text-sm { font-size: 0.875rem; }
+.text-display-lg {
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
+.text-display-md {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.text-title-lg {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.text-title-md {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.text-body {
+  font-size: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
 
 /* Components - Buttons */
 .btn {
@@ -127,6 +161,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.5rem;
   font-weight: 800;
   background: linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-secondary)));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.05em;
@@ -160,11 +195,20 @@ h1, h2, h3, h4, h5, h6 {
   gap: 1.5rem;
 }
 
-.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
 
 @media (max-width: 768px) {
-  .grid-cols-3, .grid-cols-2 { grid-template-columns: 1fr; }
+
+  .grid-cols-3,
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Badges */
