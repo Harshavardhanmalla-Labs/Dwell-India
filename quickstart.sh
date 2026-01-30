@@ -54,8 +54,16 @@ echo ""
 echo "⚛️  Setting up Frontend..."
 cd web
 
+# Clean install to avoid cache issues
+echo "Installing frontend dependencies..."
+rm -rf node_modules package-lock.json
+
 # Install dependencies
 npm install
+
+# Explicitly install critical packages if missing
+echo "Ensuring critical packages are installed..."
+npm install react-router-dom lucide-react
 
 # Create .env if it doesn't exist
 if [ ! -f ".env" ]; then
