@@ -1,0 +1,136 @@
+/* ListProperty.css */
+
+.list-property-container {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.list-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.list-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.list-header p {
+    font-size: 1.25rem;
+    color: #94a3b8;
+}
+
+.verification-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: -3rem;
+    padding-bottom: 3rem;
+}
+
+.verify-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s;
+}
+
+.verify-card:hover {
+    transform: translateY(-5px);
+}
+
+.verify-card.current {
+    border: 2px solid #2563eb;
+    background: #f0f7ff;
+}
+
+.step-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: #2563eb;
+    color: white;
+    padding: 4px 16px;
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.verify-icon {
+    width: 64px;
+    height: 64px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.verify-card h3 {
+    font-size: 1.5rem;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+.verify-card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.privacy-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.mobile-app-link {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.legal-trust-banner {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    color: #166534;
+    font-weight: 500;
+}
+
+.action-area {
+    text-align: center;
+    padding-bottom: 5rem;
+}
+
+.btn-lg {
+    padding: 1.25rem 3rem;
+    font-size: 1.125rem;
+}
+
+@media (max-width: 968px) {
+    .verification-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .list-header {
+        padding: 3rem 1rem;
+    }
+}

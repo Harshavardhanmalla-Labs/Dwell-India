@@ -1,0 +1,456 @@
+/* DealRoom.css */
+
+.deal-container {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.deal-header {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.deal-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deal-info h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.deal-id {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-family: monospace;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f0fdf4;
+    color: #166534;
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.pulse {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.deal-main {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+}
+
+.sidebar-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-card h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #f1f5f9;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.timeline-item.completed .timeline-dot {
+    background: #22c55e;
+}
+
+.timeline-item.current .timeline-dot {
+    background: #2563eb;
+    box-shadow: 0 0 0 4px #dbeafe;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.step-status-text {
+    font-size: 0.625rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+.timeline-item.completed .step-status-text {
+    color: #22c55e;
+}
+
+.timeline-item.current .step-status-text {
+    color: #2563eb;
+}
+
+.timeline-item.pending .step-status-text {
+    color: #94a3b8;
+}
+
+/* Rulepack */
+.state-rulepack {
+    background: #0f172a;
+    color: white;
+    border: none;
+}
+
+.rulepack-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+    font-size: 0.8125rem;
+}
+
+.checklist li {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #94a3b8;
+}
+
+.checklist li.checked {
+    color: white;
+}
+
+.checklist li::before {
+    content: '○';
+    position: absolute;
+    left: 0;
+    color: #3b82f6;
+}
+
+.checklist li.checked::before {
+    content: '●';
+}
+
+/* Chat Center */
+.deal-center {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 160px);
+}
+
+.masked-comm {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.masked-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+}
+
+.avatar.owner {
+    background: #9333ea;
+}
+
+.btn-masked-call {
+    background: #eef2ff;
+    color: #2563eb;
+    border: 1px solid #c3dafe;
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.chat-window {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+}
+
+.chat-date {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.chat-bubble.received {
+    background: #f1f5f9;
+    color: #1e293b;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-bubble.sent {
+    background: #2563eb;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+}
+
+.chat-input-area {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 0 1rem 1rem;
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.chat-input-area input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    font-size: 0.9375rem;
+}
+
+.btn-send {
+    background: #2563eb;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Assets */
+.asset-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    margin-bottom: 0.75rem;
+    color: #1e293b;
+}
+
+.asset-item.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.asset-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.asset-meta {
+    font-size: 0.6875rem;
+    color: #64748b;
+}
+
+@media (max-width: 1024px) {
+    .deal-main {
+        grid-template-columns: 1fr;
+    }
+
+    .deal-sidebar,
+    .deal-assets {
+        display: none;
+    }
+}
+
+/* NEW INTERACTIVE STATES */
+.btn-escrow-action {
+    flex: 1;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-escrow-action:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.btn-masked-call.active {
+    background: #22c55e;
+    color: white;
+    border-color: #16a34a;
+}
+
+.system-notification {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f0fdf4;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #dcfce7;
+    font-size: 0.8125rem;
+    color: #166534;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.btn-legal-action {
+    flex: 1;
+    background: #9333ea;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-legal-action:hover {
+    background: #7e22ce;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+}
+
+.btn-legal-action.disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.system-notification.warning {
+    background: #fffbeb;
+    border-color: #fef3c7;
+    color: #92400e;
+}
+
+.system-notification.success {
+    background: #f0fdf4;
+    border-color: #dcfce7;
+    color: #166534;
+}
