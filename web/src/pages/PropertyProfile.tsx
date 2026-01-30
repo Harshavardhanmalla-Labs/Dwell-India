@@ -1,10 +1,35 @@
-import { useState } from 'react';
-import { ShieldCheck, MapPin, Ruler, Compass, Sparkles, Phone, ArrowRight, FileCheck } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { ShieldCheck, MapPin, Ruler, Compass, Sparkles, Phone, ArrowRight, FileCheck, Lock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { LoginModal } from '../components/LoginModal';
 import './PropertyProfile.css';
 
 export const PropertyProfile = () => {
+    const { id } = useParams();
+    const { isAuthenticated } = useAuth();
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [property, setProperty] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
     const [viewMode, setViewMode] = useState<'original' | 'staged'>('original');
     const [activeStyle, setActiveStyle] = useState('modern');
+
+    useEffect(() => {
+        const fetchProperty = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`http://localhost:8000/properties/${id}?authenticated=${isAuthenticated}`);
+                const data = await response.json();
+                setProperty(data);
+            } catch (err) {
+                console.error("Failed to fetch property details", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProperty();
+    }, [id, isAuthenticated]);
 
     const images = {
         original: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
@@ -14,6 +39,17 @@ export const PropertyProfile = () => {
             industrial: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80"
         }
     };
+
+    const handleAction = (callback: () => void) => {
+        if (!isAuthenticated) {
+            setIsLoginModalOpen(true);
+        } else {
+            callback();
+        }
+    };
+
+    if (loading) return <div className="loading-state">Loading trust-anchored property...</div>;
+    if (!property) return <div className="error-state">Property not found.</div>;
 
     return (
         <div className="prop-profile-container">
@@ -66,12 +102,17 @@ export const PropertyProfile = () => {
                             <ShieldCheck size={20} />
                             <span>DWELL VERIFIED OWNER</span>
                         </div>
-                        <h1>Skyline Heights - Premium 3BHK</h1>
+                        <h1>{property.title}</h1>
                         <div className="prop-loc">
                             <MapPin size={18} />
-                            <span>Gachibowli, Hyderabad, Telangana 500032</span>
+                            <span>
+                                {isAuthenticated
+                                    ? property.address_line || `${property.city}, ${property.state}`
+                                    : property.message || `${property.city}, ${property.state} (Sign in to view full info)`
+                                }
+                            </span>
                         </div>
-                        <div className="prop-price">₹1.45 Cr</div>
+                        <div className="prop-price">₹{(property.price / 100000).toFixed(1)} Lakh</div>
                     </div>
 
                     <div className="prop-stats">
@@ -107,18 +148,42 @@ export const PropertyProfile = () => {
                         </div>
                     </div>
 
+                    {/* Professional Assistance Card */}
+                    <div className="prop-assistance-card">
+                        <div className="assistance-header">
+                            <ShieldCheck size={18} color="#2563eb" />
+                            <span>Transaction Assistance</span>
+                        </div>
+                        <h4>Hire a Verified Advisor</h4>
+                        <p>Get a RERA-certified professional to handle site visits and legal document coordination.</p>
+                        <div className="assistance-footer">
+                            <div className="price-tag">
+                                <span className="label">Fixed Fee:</span>
+                                <span className="value">₹4,999</span>
+                            </div>
+                            <button className="btn-hire" onClick={() => handleAction(() => alert("Advisor request sent! Pre-negotiated fee locked in."))}>
+                                Hire Advisor
+                            </button>
+                        </div>
+                        <div className="fee-lock-badge">
+                            🛑 NO BROKERAGE EXPLOITATION • FEE-LOCK GUARANTEE
+                        </div>
+                    </div>
+
                     <div className="prop-actions">
-                        <button className="btn-primary-action">
-                            <Phone size={18} />
-                            Contact Verified Owner
+                        <button className="btn-primary-action" onClick={() => handleAction(() => alert("Connecting to owner..."))}>
+                            {isAuthenticated ? <Phone size={18} /> : <Lock size={18} />}
+                            {isAuthenticated ? "Contact Verified Owner" : "Sign in to Contact Owner"}
                         </button>
-                        <button className="btn-secondary-action">
+                        <button className="btn-secondary-action" onClick={() => handleAction(() => alert("Initiating offer..."))}>
                             Make an Offer
                             <ArrowRight size={18} />
                         </button>
                     </div>
                 </section>
             </main>
+
+            <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
         </div>
     );
 };

@@ -29,11 +29,24 @@ export default function LiveVerificationScreen({ onComplete }) {
             <View style={styles.cameraContainer}>
                 {/* Mock Camera Viewfinder */}
                 <View style={styles.viewfinder}>
+                    <View style={styles.geofenceOverlay}>
+                        <Text style={styles.geofenceText}>📍 GACHIBOWLI, HYD 500032</Text>
+                        <Text style={styles.accuracyText}>Accuracy: 98.4% (GTP-45)</Text>
+                    </View>
+
                     <View style={styles.overlay}>
                         <Text style={styles.instructionText}>
                             {progress === 0 ? "Slowly rotate in a full circle" :
-                                progress < 100 ? `Capturing... ${progress}%` : "Capture Complete"}
+                                progress < 100 ? `Truth Engine Processing... ${progress}%` : "Verification Data Captured"}
                         </Text>
+                    </View>
+
+                    {/* AI Box Indicators */}
+                    <View style={[styles.aiBox, { top: 120, left: 60, width: 100, height: 150 }]}>
+                        <Text style={styles.aiLabel}>[WALL_DETECTION]</Text>
+                    </View>
+                    <View style={[styles.aiBox, { bottom: 80, right: 40, width: 120, height: 80 }]}>
+                        <Text style={styles.aiLabel}>[FLOOR_AREA_VAL]</Text>
                     </View>
 
                     {/* Progress Ring Overlay */}
@@ -112,9 +125,46 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative',
     },
+    geofenceOverlay: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        padding: 10,
+        borderRadius: 12,
+        borderLeftWidth: 3,
+        borderLeftColor: '#3b82f6',
+    },
+    geofenceText: {
+        color: '#fff',
+        fontSize: 10,
+        fontWeight: '800',
+    },
+    accuracyText: {
+        color: '#94a3b8',
+        fontSize: 8,
+        marginTop: 2,
+    },
+    aiBox: {
+        position: 'absolute',
+        borderWidth: 1,
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34, 197, 94, 0.05)',
+        padding: 5,
+    },
+    aiLabel: {
+        fontSize: 6,
+        color: '#22c55e',
+        fontWeight: '900',
+        backgroundColor: '#0f172a',
+        paddingHorizontal: 2,
+        position: 'absolute',
+        top: -4,
+        left: 4,
+    },
     overlay: {
         position: 'absolute',
-        top: 40,
+        top: 100,
         backgroundColor: 'rgba(0,0,0,0.6)',
         paddingHorizontal: 20,
         paddingVertical: 10,

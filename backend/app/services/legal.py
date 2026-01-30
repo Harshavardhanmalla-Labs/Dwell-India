@@ -23,6 +23,48 @@ class LegalDraftService:
         """
 
     @staticmethod
+    def generate_agreement_to_sell(buyer_info: dict, seller_info: dict, property_info: dict, deal_terms: dict):
+        """
+        Uses an LLM-like template engine to generate a professional 'Agreement to Sell'.
+        It injects specific deal parameters into legally vetted clauses for the relevant state.
+        """
+        state = property_info.get("state", "TS")
+        stamp_duty = "7.5%" if state == "TS" else "7%" # Telangana vs others
+        
+        # Simulated LLM data extraction & clause generation
+        agreement_text = f"""
+        AGREEMENT TO SELL
+        
+        This Agreement to Sell is made at {property_info['city']} on {datetime.now().strftime('%d %B %Y')}
+        
+        BETWEEN:
+        SELLER: {seller_info['name']}, R/o {seller_info['address']}, Aadhaar: {seller_info['aadhaar_masked']}
+        AND
+        BUYER: {buyer_info['name']}, R/o {buyer_info['address']}, Aadhaar: {buyer_info['aadhaar_masked']}
+        
+        WHEREAS the Seller is the absolute owner of the property: {property_info['description']}
+        located at {property_info['address_full']}.
+        
+        1. SALE CONSIDERATION: The total sale price is fixed at INR {deal_terms['total_price']}/-.
+        2. TOKEN ADVANCE: The Buyer has paid INR {deal_terms['token_amount']}/- via Dwell Escrow (Hash: {deal_terms.get('bc_hash', 'PENDING')}).
+        3. TIMELINE: The transaction shall be completed within {deal_terms['days']} days from this date.
+        4. ENCUMBRANCES: The Seller warrants that the property is free from all encumbrances, liens, or litigations.
+        5. POSSESSION: Vacant possession shall be handed over upon full payment and registration.
+        
+        DWELL VERIFIED TRANSACTION: {deal_terms['deal_id']}
+        COMPLIANCE PACK: {state}_REG_2026_PRO
+        """
+        return {
+            "title": "Agreement to Sell",
+            "content": agreement_text,
+            "metadata": {
+                "state": state,
+                "stamp_duty_estimate": stamp_duty,
+                "version": "v2.1_AI_GENERATED"
+            }
+        }
+
+    @staticmethod
     def initiate_digital_signature(doc_id: str, signers: list):
         """
         Simulates Leegality/DocuSign API call to initiate a signing flow.

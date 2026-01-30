@@ -25,13 +25,28 @@ class AIService:
         }
 
     @staticmethod
-    def identify_objects(image_url: str):
+    def generate_legal_draft(deal_id: str, property_state: str):
         """
-        Uses CV to identify walls, windows, and floor areas for renovation estimation.
+        Simulates an LLM chain for legal drafting.
+        1. Context Loading (Aadhaar, Sale Deed, Encumbrance Certificate)
+        2. Clause Matching (based on State Rulepack)
+        3. Draft Generation
         """
+        extraction_steps = [
+            "Analyzing Sale Deed (SRO Volume 4492)...",
+            f"Matching clauses for {property_state} Registration Rules...",
+            "Validating Token Hash on-chain...",
+            "Compiling final Agreement to Sell draft..."
+        ]
+        
         return {
-            "walls": 4,
-            "windows": 2,
-            "floor_area_sqft": 1200,
-            "detected_issues": ["minor_crack_north_wall", "outdated_flooring"]
+            "deal_id": deal_id,
+            "steps": extraction_steps,
+            "status": "DRAFT_GENERATED",
+            "document_type": "Agreement to Sell (ATS)",
+            "ai_metadata": {
+                "model": "Dwell-Legal-LLM-v1",
+                "law_reference": f"{property_state}_REG_ACT_1908",
+                "accuracy": 0.99
+            }
         }

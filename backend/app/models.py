@@ -26,6 +26,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    email = Column(String, unique=True, index=True, nullable=True)
+    google_id = Column(String, unique=True, index=True, nullable=True)
     phone_number = Column(String, unique=True, index=True)
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
@@ -146,6 +148,10 @@ class Deal(Base):
     current_step = Column(Integer, default=1)
     state_code = Column(String, default="TS") # Default to Telangana
     
+    # Funnel Metrics
+    intent_score = Column(Float, default=0.0) # 0 to 1 based on engagement
+    funnel_stage = Column(String, default="inquiry") # inquiry, lead, prospect, deal, success
+    
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
@@ -160,6 +166,7 @@ class PaymentTransaction(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     deal_id = Column(UUID(as_uuid=True), ForeignKey("deals.id"))
     transaction_id = Column(String, unique=True) # External TXN ID from gateway
+    blockchain_hash = Column(String, nullable=True) # On-chain verification hash
     amount = Column(Float, nullable=False)
     status = Column(String, default="pending") # pending, held_in_escrow, released, refunded
     

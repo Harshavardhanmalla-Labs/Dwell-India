@@ -9,6 +9,7 @@ from .services.communication import CommunicationService
 from .services.workflow import WorkflowEngine
 from .services.legal import LegalDraftService
 from .services.ai import AIService
+from .services.auth import AuthService
 
 # Create tables
 models.Base.metadata.create_all(bind=engine)
@@ -29,9 +30,36 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to Dwell India API", "status": "operational"}
+
+@app.post("/auth/google/login")
+async def google_login(data: dict, db: Session = Depends(get_db)):
+    user = AuthService.login_via_google(db, data)
+    return {
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name
+        },
+        "token": f"sim_token_{user.id}" # Mock JWT
+    }
+
+@app.get("/properties/{property_id}")
+async def get_property_details(property_id: str, authenticated: bool = False, db: Session = Depends(get_db)):
+    prop = db.query(models.Property).filter(models.Property.id == property_id).first()
+    if not prop:
+        raise HTTPException(status_code=404, detail="Property not found")
+    
+    if authenticated:
+        return AuthService.get_private_property_data(prop)
+    return AuthService.get_public_property_data(prop)
 
 # Internal Verification Engine (Truth Engine)
 @app.post("/verify/documents")
@@ -43,7 +71,13 @@ async def verify_live_capture():
     return {"status": "verified", "confidence_score": 98.5}
 
 @app.get("/listings/{listing_id}/trust-report")
-async def get_trust_report(listing_id: str):
+async def get_trust_report(listing_id: str, authenticated: bool = False):
+    if not authenticated:
+        return {
+            "status": "GATED",
+            "message": "Full Trust Report is only available to registered users. Please sign in."
+        }
+    
     return {
         "listing_id": listing_id,
         "is_verified": True,
@@ -52,17 +86,33 @@ async def get_trust_report(listing_id: str):
         "notice": "Raw documents are kept in an encrypted internal vault and never shared."
     }
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Dwell India API", "status": "operational"}
-
 @app.get("/search/conversational")
-async def conversational_search(q: str, db: Session = Depends(get_db)):
+async def conversational_search(q: str, authenticated: bool = False, db: Session = Depends(get_db)):
     results = SearchService.semantic_search(db, q)
     interpretation = SearchService.get_ai_interpretation(q)
+    
+    # Redact address for results if not authenticated
+    redacted_results = []
+    for l in results:
+        # Convert model to dict for flexible redaction and serialization
+        l_dict = {
+            "id": str(l.id),
+            "price": l.price,
+            "property": {
+                "title": l.property.title,
+                "city": l.property.city,
+                "state": l.property.state,
+                "property_type": l.property.property_type,
+                "verification_status": l.property.verification_status,
+                "address_line": l.property.address_line if authenticated else None
+            },
+            "gated": not authenticated
+        }
+        redacted_results.append(l_dict)
+
     return {
         "query": q,
-        "results": results,
+        "results": redacted_results,
         "interpretation": interpretation
     }
 

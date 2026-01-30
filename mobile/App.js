@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import { StatusBar } from 'expo-status-bar';
 import LiveVerificationScreen from './screens/LiveVerificationScreen';
 import ProjectProfileScreen from './screens/ProjectProfileScreen';
+import VaultScreen from './screens/VaultScreen';
+import MarketplaceScreen from './screens/MarketplaceScreen';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Home');
@@ -13,6 +15,14 @@ export default function App() {
 
   if (currentScreen === 'Project') {
     return <ProjectProfileScreen onBack={() => setCurrentScreen('Home')} />;
+  }
+
+  if (currentScreen === 'Vault') {
+    return <VaultScreen onBack={() => setCurrentScreen('Home')} />;
+  }
+
+  if (currentScreen === 'Marketplace') {
+    return <MarketplaceScreen onBack={() => setCurrentScreen('Home')} />;
   }
 
   return (
@@ -31,16 +41,23 @@ export default function App() {
 
         <TouchableOpacity
           style={[styles.buttonSecondary, { marginTop: 10 }]}
-          onPress={() => setCurrentScreen('Project')}
+          onPress={() => setCurrentScreen('Vault')}
         >
-          <Text style={[styles.buttonText, styles.textDark]}>View Builder Projects</Text>
+          <Text style={[styles.buttonText, styles.textDark]}>Secure Data Vault</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.buttonSecondary, { marginTop: 10, borderColor: '#3b82f6' }]}
-          onPress={() => { }}
+          style={[styles.buttonSecondary, { marginTop: 10 }]}
+          onPress={() => setCurrentScreen('Project')}
         >
-          <Text style={[styles.buttonText, { color: '#3b82f6' }]}>Developer Dashboard</Text>
+          <Text style={[styles.buttonText, styles.textDark]}>Builder Projects</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.buttonSecondary, { marginTop: 10, borderColor: '#3b82f6', borderStyle: 'dashed' }]}
+          onPress={() => setCurrentScreen('Marketplace')}
+        >
+          <Text style={[styles.buttonText, { color: '#3b82f6' }]}>Browse Marketplace</Text>
         </TouchableOpacity>
       </View>
 
@@ -52,6 +69,27 @@ export default function App() {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Direct Deal</Text>
           <Text style={styles.cardText}>No broker commissions.</Text>
+        </View>
+      </View>
+
+      <View style={styles.truthEngineDashboard}>
+        <View style={styles.dashboardHeader}>
+          <Text style={styles.dashboardTitle}>PLATFORM TRUTH ENGINE</Text>
+          <View style={styles.liveBadge}><Text style={styles.liveText}>LIVE</Text></View>
+        </View>
+        <View style={styles.statsRow}>
+          <View style={styles.stat}>
+            <Text style={styles.statValue}>4.2k</Text>
+            <Text style={styles.statLabel}>Verified Owners</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statValue}>₹12.5Cr</Text>
+            <Text style={styles.statLabel}>Secured Escrow</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statValue}>18k+</Text>
+            <Text style={styles.statLabel}>On-Chain Docs</Text>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -144,5 +182,55 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 14,
     color: '#64748b',
+  },
+  truthEngineDashboard: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 40,
+    paddingVertical: 25,
+    backgroundColor: '#0f172a',
+    borderRadius: 20,
+    marginHorizontal: 20,
+    width: width - 40,
+  },
+  dashboardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  dashboardTitle: {
+    color: '#94a3b8',
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 2,
+  },
+  liveBadge: {
+    backgroundColor: '#10b981',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  liveText: {
+    color: '#fff',
+    fontSize: 8,
+    fontWeight: '900',
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  stat: {
+    alignItems: 'flex-start',
+  },
+  statValue: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  statLabel: {
+    color: '#64748b',
+    fontSize: 10,
+    marginTop: 4,
   },
 });

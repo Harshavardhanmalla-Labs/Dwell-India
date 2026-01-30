@@ -1,6 +1,7 @@
 .search-page-container {
     background: #f8fafc;
     min-height: 100vh;
+    margin-top: 72px;
 }
 
 .search-header {

@@ -34,6 +34,7 @@ Design rulepacks and workflows per state so expansion is configuration, not code
 ### Roles
 - Buyer (browse + initiate transactions)
 - Owner (can list only after verification)
+- **Verified Advisor (Professional RERA-registered consultants for assistance)**
 - Authorized Seller (3rd party allowed only with owner authorization proof)
 - Internal Reviewer (verification ops)
 - Admin/SuperAdmin
@@ -49,41 +50,28 @@ Design rulepacks and workflows per state so expansion is configuration, not code
 
 ---
 
-## MODULE 2 — OWNER & PROPERTY VERIFICATION ENGINE (CORE DIFFERENTIATOR)
+## MODULE 2 — THE TRUST & TRANSPARENCY ENGINE
 
-No listing is allowed before verification.
+Goal: Streamline deal time and stop fee exploitation.
 
-### Required Docs
-- Property ownership documents
-- Aadhaar (OTP verified)
-- PAN
+### Verified Professional Advisors (RERA-Certified)
+Instead of replacing brokers, we certify high-quality professionals who commit to platform-standardized rules:
+1.  **Mandatory RERA Registration**: Must upload and verify RERA Certificate.
+2.  **Standardized Fee Table**: Advisors MUST declare their fee on their profile (e.g., 1% fixed or Flat Fee). Charging above this is grounds for a permanent ban.
+3.  **Commission Escrow**: Brokerage/Commission is handled via Dwell Escrow. Fees are released only after key milestones (e.g., Agreement Signed, Registration Done).
+4.  **Assistance-Only Mode**: Advisors can be hired by Owners or Buyers *within* an active transaction just to coordinate documents—removing the overhead of "finding" parties.
 
-### Verification Logic
-1.  Extract owner name from: Sale Deed / Title document, Aadhaar, PAN
-2.  Name matching engine (exact + fuzzy).
-3.  Property identifiers extracted (survey number, address, plot no.)
-4.  Cross-doc validation.
-5.  Required docs per state rulepack.
-6.  Confidence score (0–100).
-7.  Risk flags.
-
-### Decision
-- Auto-approve if high score + no major flags.
-- Else → human review queue.
-
----
-
-## AUTHORIZED SELLER (3rd Party) RULES
-
-Goal: prevent fake broker listings.
+### Authorized Seller (3rd Party) Rules
+Goal: prevent fake/unauthorized listings while allowing professional management.
 
 If someone claims to sell on behalf of owner:
 - They must upload: Authorization letter signed by owner, Owner Aadhaar/PAN
+- **Trust Score Weighting**: High intent/Low spam history gives higher visibility.
 - Owner OTP confirmation (owner must log in and digitally confirm authorization)
 - Validity period of authorization
 
 Without owner confirmation → listing blocked.
-Authorized sellers are tagged: "Authorized Representative" — never shown as owner.
+Advisors/Sellers are tagged: "Verified Professional" — never shown as owner.
 Audit logs mandatory for all authorizations.
 
 ---

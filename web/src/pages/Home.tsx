@@ -24,15 +24,16 @@ export const Home = () => {
                 <div className="hero-content">
                     <div className="hero-tag">
                         <ShieldCheck size={16} className="text-green-400" color="#4ade80" />
-                        <span>INDIA'S ONLY VERIFIED OWNER MARKETPLACE</span>
+                        <span>THE NEW STANDARD IN INDIAN PROPTECH</span>
                     </div>
 
                     <h1 className="hero-title">
-                        Find Trust, Not Noise.
+                        The OS for<br />
+                        <span className="gradient-text">Verified Living.</span>
                     </h1>
 
                     <p className="hero-subtitle">
-                        Directly connect with verified owners. No fake listings, no repetitive brokers, just clean transactions.
+                        Dwell India unifies verified owners, professional advisors, and buyers into one seamless, trust-anchored ecosystem. No fake listings, no fee exploitation—just clean transactions.
                     </p>
 
                     <div className="search-tabs">

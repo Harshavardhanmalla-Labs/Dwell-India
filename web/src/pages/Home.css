@@ -12,7 +12,7 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: white;
     text-align: center;
-    padding: 0 1rem;
+    padding: 72px 1rem 0;
 }
 
 .hero-bg {
@@ -51,10 +51,14 @@
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    background: linear-gradient(to right, #ffffff, #94a3b8);
+    letter-spacing: -0.03em;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-subtitle {

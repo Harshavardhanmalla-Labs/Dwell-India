@@ -12,16 +12,44 @@ const STEPS = [
 export const DealRoom = () => {
     const [paymentStatus, setPaymentStatus] = useState<'IDLE' | 'PENDING' | 'COMPLETED'>('IDLE');
     const [signatureStatus, setSignatureStatus] = useState<'IDLE' | 'SENT' | 'SIGNED'>('IDLE');
+    const [draftingStatus, setDraftingStatus] = useState<'IDLE' | 'DRAFTING' | 'READY'>('IDLE');
+    const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otpValue, setOtpValue] = useState('');
     const [isCalling, setIsCalling] = useState(false);
+    const [userRole] = useState<'buyer' | 'seller'>('seller'); // Mocking seller view for lead insights
+
+    const leadInsights = {
+        conversionProbability: paymentStatus === 'COMPLETED' ? 92 : 35,
+        buyerIntent: paymentStatus === 'COMPLETED' ? 'CRITICAL' : 'MODERATE',
+        funnelStage: paymentStatus === 'COMPLETED' ? 'Prospect' : 'Inquiry'
+    };
 
     const handleInitiateEscrow = () => {
         setPaymentStatus('PENDING');
-        setTimeout(() => setPaymentStatus('COMPLETED'), 2000); // Simulated Success
+        setTimeout(() => setPaymentStatus('COMPLETED'), 2000);
     };
 
     const handleInitiateSigning = () => {
-        setSignatureStatus('SENT');
-        setTimeout(() => setSignatureStatus('SIGNED'), 3000); // Simulated Success
+        setDraftingStatus('DRAFTING');
+
+        // Step 1: Simulate AI drafting
+        setTimeout(() => {
+            setDraftingStatus('READY');
+            // Step 2: Show notification that email was sent
+            setTimeout(() => {
+                setShowOtpModal(true); // Simulate clicking the link in the email
+            }, 1000);
+        }, 2500);
+    };
+
+    const verifyOtp = () => {
+        if (otpValue === '449210') {
+            setSignatureStatus('SENT');
+            setShowOtpModal(false);
+            setTimeout(() => setSignatureStatus('SIGNED'), 2000);
+        } else {
+            alert('Invalid OTP. Please check your simulated SMS.');
+        }
     };
 
     const handleCall = () => {
@@ -93,6 +121,33 @@ export const DealRoom = () => {
                             </li>
                         </ul>
                     </div>
+
+                    {userRole === 'seller' && (
+                        <div className="sidebar-card lead-insights-card">
+                            <h3>Lead Conversion</h3>
+                            <div className="funnel-metrics">
+                                <div className="metric">
+                                    <div className="metric-label">Probability</div>
+                                    <div className="metric-value">{leadInsights.conversionProbability}%</div>
+                                </div>
+                                <div className="metric">
+                                    <div className="metric-label">Stage</div>
+                                    <div className="metric-value">{leadInsights.funnelStage}</div>
+                                </div>
+                            </div>
+                            <div className="intent-bar">
+                                <div
+                                    className={`intent-fill ${leadInsights.buyerIntent.toLowerCase()}`}
+                                    style={{ width: `${leadInsights.conversionProbability}%` }}
+                                ></div>
+                            </div>
+                            <p className="intent-hint">
+                                {leadInsights.buyerIntent === 'CRITICAL'
+                                    ? 'High-intent buyer. Funds secured on-chain.'
+                                    : 'Early inquiry. Awaiting commitment.'}
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Center: Secure Communication & Actions */}
@@ -119,12 +174,49 @@ export const DealRoom = () => {
                         <div className="chat-bubble received">
                             Hi, I have reviewed your offer. The token amount of 2 Lakhs is acceptable.
                         </div>
-                        {paymentStatus === 'COMPLETED' && (
-                            <div className="system-notification">
-                                <Shield size={14} color="#22c55e" />
-                                <span>Token of ₹2,00,000 has been secured in Dwell Escrow.</span>
+
+                        {draftingStatus === 'READY' && signatureStatus === 'IDLE' && !showOtpModal && (
+                            <div className="security-toast">
+                                <Shield size={14} />
+                                <span>Signing requests sent to buyer/seller emails. <strong>Awaiting OTP verification.</strong></span>
                             </div>
                         )}
+
+                        {paymentStatus === 'COMPLETED' && draftingStatus === 'IDLE' && (
+                            <div className="system-notification blockchain-verified">
+                                <Shield size={14} color="#22c55e" />
+                                <div>
+                                    <span>Token of ₹2,00,000 has been secured in Dwell Escrow.</span>
+                                    <div className="blockchain-hash">
+                                        TX Hash: 0x7a2d...f41b <a href="#" onClick={(e) => e.preventDefault()}>Verify on Chain</a>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {draftingStatus === 'DRAFTING' && (
+                            <div className="ai-drafting-loader">
+                                <div className="ai-icon-circle pulse-ai">AI</div>
+                                <div className="ai-status-messages">
+                                    <p className="active-step">Extracting Sale Deed terms (SRO Volume 4492)...</p>
+                                    <p className="dim-step">Matching Telangana State Registration Rules...</p>
+                                    <p className="dim-step">Analyzing Encumbrance Report (1994-2024)...</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {draftingStatus === 'READY' && signatureStatus === 'IDLE' && (
+                            <div className="system-notification success">
+                                <FileText size={14} color="#22c55e" />
+                                <div>
+                                    <span>Agreement to Sell generated by Dwell AI.</span>
+                                    <div className="draft-preview-link">
+                                        <a href="#" onClick={(e) => e.preventDefault()}>Preview Draft (v2.1)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {signatureStatus === 'SENT' && (
                             <div className="system-notification warning">
                                 <FileText size={14} color="#f59e0b" />
@@ -134,7 +226,12 @@ export const DealRoom = () => {
                         {signatureStatus === 'SIGNED' && (
                             <div className="system-notification success">
                                 <CheckCircle2 size={14} color="#22c55e" />
-                                <span>Agreement to Sell digitally signed by all parties.</span>
+                                <div>
+                                    <span>Agreement to Sell digitally signed by all parties.</span>
+                                    <div className="blockchain-hash">
+                                        Certificate Hash: 0x9b3e...c21d
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -188,6 +285,32 @@ export const DealRoom = () => {
                     </div>
                 </div>
             </main>
+
+            {showOtpModal && (
+                <div className="otp-overlay">
+                    <div className="otp-modal">
+                        <div className="leegality-header">
+                            <Shield size={20} />
+                            <span>Leegality Identity Verification</span>
+                        </div>
+                        <div className="otp-content">
+                            <p>To sign the <strong>Agreement to Sell (ATS-9920)</strong>, please enter the 6-digit OTP sent to your registered mobile ending in <strong>...4492</strong></p>
+                            <input
+                                type="text"
+                                placeholder="Enter 6-digit OTP"
+                                maxLength={6}
+                                value={otpValue}
+                                onChange={(e) => setOtpValue(e.target.value)}
+                                className="otp-input"
+                            />
+                            <button className="btn-verify-otp" onClick={verifyOtp}>
+                                Verify & Sign Document
+                            </button>
+                            <p className="otp-hint">Sent via Dwell Notification Service</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

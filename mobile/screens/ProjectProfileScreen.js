@@ -21,6 +21,39 @@ const UNITS = [
 
 export default function ProjectProfileScreen({ onBack }) {
     const [activeTab, setActiveTab] = useState('Overview');
+    const [stagingStyle, setStagingStyle] = useState('Empty');
+
+    const renderStaging = () => (
+        <View style={styles.section}>
+            <Text style={styles.sectionTitle}>AI Virtual Staging</Text>
+            <View style={styles.stagingContainer}>
+                <Image
+                    source={{
+                        uri: stagingStyle === 'Empty'
+                            ? 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80'
+                            : stagingStyle === 'Modern'
+                                ? 'https://images.unsplash.com/photo-1554995207-c18c20360a59?auto=format&fit=crop&w=800&q=80'
+                                : 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80'
+                    }}
+                    style={styles.stagingImage}
+                />
+                <View style={[styles.aiBadge, { position: 'absolute', top: 15, right: 15 }]}>
+                    <Text style={styles.aiBadgeText}>DWELL AI RENDER</Text>
+                </View>
+            </View>
+            <View style={styles.stagingTabs}>
+                {['Empty', 'Modern', 'Minimalist'].map((style) => (
+                    <TouchableOpacity
+                        key={style}
+                        style={[styles.stagingTab, stagingStyle === style && styles.activeStagingTab]}
+                        onPress={() => setStagingStyle(style)}
+                    >
+                        <Text style={[styles.stagingTabText, stagingStyle === style && styles.activeStagingTabText]}>{style}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
@@ -43,7 +76,7 @@ export default function ProjectProfileScreen({ onBack }) {
 
                 {/* Tab Navigation */}
                 <View style={styles.tabContainer}>
-                    {['Overview', 'Units', 'Amenities', 'Documents'].map((tab) => (
+                    {['Overview', 'Units', 'Staged', 'Amenities', 'Documents'].map((tab) => (
                         <TouchableOpacity
                             key={tab}
                             style={[styles.tab, activeTab === tab && styles.activeTab]}
@@ -68,6 +101,8 @@ export default function ProjectProfileScreen({ onBack }) {
                         </View>
                     </View>
                 )}
+
+                {activeTab === 'Staged' && renderStaging()}
 
                 {activeTab === 'Units' && (
                     <View style={styles.section}>
@@ -383,5 +418,49 @@ const styles = StyleSheet.create({
         color: '#64748b',
         fontSize: 16,
         fontWeight: '600',
+    },
+    stagingContainer: {
+        borderRadius: 20,
+        overflow: 'hidden',
+        height: 250,
+        backgroundColor: '#f1f5f9',
+    },
+    stagingImage: {
+        width: '100%',
+        height: '100%',
+    },
+    aiBadge: {
+        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 8,
+    },
+    aiBadgeText: {
+        color: '#fff',
+        fontSize: 10,
+        fontWeight: '800',
+        letterSpacing: 1,
+    },
+    stagingTabs: {
+        flexDirection: 'row',
+        marginTop: 15,
+        gap: 10,
+    },
+    stagingTab: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        backgroundColor: '#f1f5f9',
+    },
+    activeStagingTab: {
+        backgroundColor: '#2563eb',
+    },
+    stagingTabText: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#64748b',
+    },
+    activeStagingTabText: {
+        color: '#fff',
     },
 });

@@ -4,6 +4,7 @@
     display: flex;
     min-height: 100vh;
     background-color: #0f172a;
+    margin-top: 72px;
     color: #f1f5f9;
     font-family: 'Inter', sans-serif;
 }

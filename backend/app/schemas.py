@@ -4,6 +4,8 @@ from datetime import datetime
 from enum import Enum
 
 class UserBase(BaseModel):
+    email: Optional[str] = None
+    google_id: Optional[str] = None
     phone_number: str
     full_name: Optional[str] = None
 

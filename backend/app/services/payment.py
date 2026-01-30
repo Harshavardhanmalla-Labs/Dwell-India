@@ -32,17 +32,28 @@ class PaymentService:
     @staticmethod
     def verify_payment(db: Session, transaction_id: str):
         """
-        Updates the payment status to ESCROW_HELD once verified.
+        Updates the payment status to ESCROW_HELD once verified and records it on blockchain.
         """
         payment = db.query(PaymentTransaction).filter(PaymentTransaction.transaction_id == transaction_id).first()
         if payment:
             payment.status = PaymentStatus.ESCROW_HELD.value
             
-            # Also update the deal status if this was the token payment
+            # Generate Blockchain Proof
+            from .blockchain import BlockchainService
+            bc_data = BlockchainService.generate_transaction_hash(
+                str(payment.deal_id), 
+                payment.amount, 
+                str(payment.payer_id)
+            )
+            payment.blockchain_hash = bc_data["block_hash"]
+            
+            # Also update the deal status and funnel stage
             deal = db.query(Deal).filter(Deal.id == payment.deal_id).first()
             if deal:
                 deal.status = "token_paid"
                 deal.token_amount = payment.amount
+                deal.funnel_stage = "prospect" # User has paid, now a high-intent prospect
+                deal.intent_score = 0.9 # High probability of closing
             
             db.commit()
             db.refresh(payment)

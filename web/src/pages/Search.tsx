@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Search as SearchIcon, MapPin, ShieldCheck, Filter, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { LoginModal } from '../components/LoginModal';
 import './Search.css';
 
 interface Listing {
@@ -8,12 +10,17 @@ interface Listing {
     title: string;
     price: string;
     location: string;
+    fullLocation?: string;
     type: string;
     verified: boolean;
     image: string;
+    gated?: boolean;
 }
 
 export const SearchPage = () => {
+    const { isAuthenticated } = useAuth();
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -23,40 +30,34 @@ export const SearchPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Simulated real fetch from our backend
-        setTimeout(() => {
-            setListings([
-                {
-                    id: 'L1',
-                    title: 'Skyline Heights - Premium 3BHK',
-                    price: '₹1.45 Cr',
-                    location: 'Gachibowli, Hyderabad',
-                    type: 'Apartment',
-                    verified: true,
-                    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80'
-                },
-                {
-                    id: 'L2',
-                    title: 'Green Meadows Luxury Plot',
-                    price: '₹85 Lakh',
-                    location: 'Kondapur, Hyderabad',
-                    type: 'Plot',
-                    verified: true,
-                    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'
-                },
-                {
-                    id: 'L3',
-                    title: 'Heritage Villa - East Facing',
-                    price: '₹3.2 Cr',
-                    location: 'Jubilee Hills, Hyderabad',
-                    type: 'Villa',
-                    verified: true,
-                    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80'
-                }
-            ]);
-            setLoading(false);
-        }, 800);
-    }, [initialQuery]);
+        const fetchListings = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`http://localhost:8000/search/conversational?q=${encodeURIComponent(initialQuery)}&authenticated=${isAuthenticated}`);
+                const data = await response.json();
+
+                // Map backend Listing model to frontend Listing interface
+                const mappedListings = data.results.map((l: any) => ({
+                    id: l.id,
+                    title: l.property?.title || l.title || "Verified Property",
+                    price: `₹${(l.price / 100000).toFixed(1)} Lakh` + (l.price >= 10000000 ? ` (${(l.price / 10000000).toFixed(2)} Cr)` : ""),
+                    location: l.property?.address_line || l.address_line || "Hyderabad",
+                    type: l.property?.property_type || l.property_type || "Apartment",
+                    verified: l.property?.verification_status === 'verified',
+                    image: l.property?.image_url || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80',
+                    gated: l.gated
+                }));
+
+                setListings(mappedListings);
+            } catch (error) {
+                console.error("Failed to fetch listings:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchListings();
+    }, [initialQuery, isAuthenticated]);
 
     return (
         <div className="search-page-container">
@@ -112,7 +113,7 @@ export const SearchPage = () => {
                         <div className="loading-state">Finding trust-anchored properties...</div>
                     ) : (
                         <div className="listings-grid">
-                            {listings.map(listing => (
+                            {listings.map((listing: Listing) => (
                                 <div key={listing.id} className="listing-card" onClick={() => navigate(`/property/${listing.id}`)}>
                                     <div className="listing-image">
                                         <img src={listing.image} alt={listing.title} />
@@ -128,7 +129,14 @@ export const SearchPage = () => {
                                         <h3 className="listing-title">{listing.title}</h3>
                                         <div className="listing-loc">
                                             <MapPin size={14} />
-                                            <span>{listing.location}</span>
+                                            <span>
+                                                {isAuthenticated
+                                                    ? listing.location
+                                                    : <span className="loc-gated" onClick={(e) => { e.stopPropagation(); setIsLoginModalOpen(true); }}>
+                                                        Sign in to view full address
+                                                    </span>
+                                                }
+                                            </span>
                                         </div>
                                         <div className="listing-footer">
                                             <span className="listing-type">{listing.type}</span>
@@ -144,6 +152,8 @@ export const SearchPage = () => {
                     )}
                 </div>
             </main>
+
+            <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
         </div>
     );
 };
