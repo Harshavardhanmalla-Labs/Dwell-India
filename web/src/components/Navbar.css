@@ -177,6 +177,10 @@
     background: #fef2f2;
 }
 
+.dwell-logo-mark {
+    fill: var(--dwell-accent);
+}
+
 @media (max-width: 768px) {
     .navbar-links {
         display: none;
