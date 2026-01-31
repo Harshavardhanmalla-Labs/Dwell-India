@@ -149,18 +149,80 @@
     gap: 2rem;
 }
 
+.listing-badges-top {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.trust-score-badge {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+}
+
+.trust-score-badge span {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 2px;
+}
+
+.trust-score-badge strong {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.listing-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.advisor-fee-tag {
+    text-align: right;
+}
+
+.advisor-fee-tag small {
+    display: block;
+    font-size: 0.65rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.advisor-fee-tag span {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #22c55e;
+}
+
 .listing-card {
     background: white;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #f1f5f9;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
 
 .listing-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
 }
 
 .listing-image {
@@ -174,23 +236,6 @@
     object-fit: cover;
 }
 
-.verified-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    color: #4ade80;
-    padding: 0.4rem 0.8rem;
-    border-radius: 99px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    border: 1px solid rgba(74, 222, 128, 0.3);
-}
-
 .listing-info {
     padding: 1.5rem;
 }
@@ -199,7 +244,6 @@
     font-size: 1.25rem;
     font-weight: 800;
     color: #0f172a;
-    margin-bottom: 0.5rem;
 }
 
 .listing-title {

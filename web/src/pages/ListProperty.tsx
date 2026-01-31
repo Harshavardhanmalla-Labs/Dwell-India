@@ -1,4 +1,4 @@
-import { ShieldCheck, FileText, Camera, CheckCircle } from 'lucide-react';
+import { ShieldCheck, Camera, CheckCircle, ArrowRight, Cpu, Sparkles } from 'lucide-react';
 import './ListProperty.css';
 
 export const ListProperty = () => {
@@ -6,56 +6,77 @@ export const ListProperty = () => {
         <div className="list-property-container">
             <header className="list-header">
                 <div className="container">
-                    <h1>List Your Property</h1>
-                    <p>Start your 3-step verification to reach thousands of serious buyers.</p>
+                    <div className="badge-premium badge-trust" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', marginBottom: '1.5rem' }}>
+                        <Sparkles size={14} />
+                        <span>AI Seller Suite</span>
+                    </div>
+                    <h1>List Effortlessly, <br /><span className="text-gradient" style={{ filter: 'brightness(1.5)' }}>Sell with Proof.</span></h1>
+                    <p>Our AI audits your documents and verifies your ID so buyers can offer with confidence.</p>
                 </div>
             </header>
 
-            <main className="container">
-                <div className="verification-steps">
-                    {/* Step 1: KYC */}
-                    <div className="verify-card">
-                        <div className="step-badge">Step 1</div>
-                        <div className="verify-icon">
-                            <ShieldCheck size={32} />
+            <main className="container section-padding">
+                <div className="sell-flow-grid">
+                    <div className="flow-step-card glass-card">
+                        <div className="step-count">Step 01</div>
+                        <div className="icon-group">
+                            <ShieldCheck size={40} className="text-primary" />
+                            <Cpu size={24} className="ai-overlay" />
                         </div>
-                        <h3>Identity Verification</h3>
-                        <p>Upload Aadhaar & PAN. We use this only to verify ownership. Your documents are <strong>never</strong> shared with buyers.</p>
-                        <div className="privacy-badge">🔒 Privacy Protected</div>
+                        <h3>AI Deed Audit</h3>
+                        <p>Upload your Sale Deed. Our engine instantly checks <strong>RERA compliance</strong> and title history.</p>
+                        <ul className="step-checklist">
+                            <li><CheckCircle size={14} /> Ownership Linkage</li>
+                            <li><CheckCircle size={14} /> Tax Receipt Check</li>
+                        </ul>
                     </div>
 
-                    {/* Step 2: Documents */}
-                    <div className="verify-card">
-                        <div className="step-badge">Step 2</div>
-                        <div className="verify-icon">
-                            <FileText size={32} />
+                    <div className="flow-step-card glass-card">
+                        <div className="step-count">Step 02</div>
+                        <div className="icon-group">
+                            <UserCheck size={40} className="text-primary" />
                         </div>
-                        <h3>Ownership Proof</h3>
-                        <p>Upload your Sale Deed or Title documents. These are processed by our internal engine and kept hidden from the public.</p>
-                        <div className="privacy-badge">🛡️ Internal Use Only</div>
+                        <h3>ID Trust-Link</h3>
+                        <p>Securely link Aadhaar & LinkedIn. We confirm your identity as the <strong>Verified Owner</strong>.</p>
+                        <ul className="step-checklist">
+                            <li><CheckCircle size={14} /> Privacy Shield Active</li>
+                            <li><CheckCircle size={14} /> Trusted Seller Badge</li>
+                        </ul>
                     </div>
 
-                    {/* Step 3: Live 360 */}
-                    <div className="verify-card current">
-                        <div className="step-badge">Step 3</div>
-                        <div className="verify-icon">
-                            <Camera size={32} />
+                    <div className="flow-step-card glass-card">
+                        <div className="step-count">Step 03</div>
+                        <div className="icon-group">
+                            <Camera size={40} className="text-primary" />
                         </div>
-                        <h3>Live 360° Tour</h3>
-                        <p>Use the Dwell Mobile App to record a live 360 tour. <strong>Gallery uploads are disabled</strong> to ensure the listing is real and current.</p>
-                        <div className="mobile-app-link">Download App for Step 3 →</div>
+                        <h3>Live Confirmation</h3>
+                        <p>A Dwell Partner visits once to record a <strong>Geofenced 360 tour</strong>. No dated photos allowed.</p>
+                        <ul className="step-checklist">
+                            <li><CheckCircle size={14} /> GPS Timestamped</li>
+                            <li><CheckCircle size={14} /> Real-Time Feed</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div className="legal-trust-banner">
-                    <CheckCircle size={20} color="#22c55e" />
-                    <p>Dwell India acts as a "Trust Proxy". Buyers see your verified status, not your sensitive papers.</p>
+                <div className="trust-proxy-banner glass-card">
+                    <div className="banner-content">
+                        <div className="banner-icon">🛡️</div>
+                        <div>
+                            <h4>Dwell "Trust Proxy" Guarantee</h4>
+                            <p>We never show your private papers to buyers. We only show them a "Verified" green signal. Your privacy is our product.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="action-area">
-                    <button className="btn btn-primary btn-lg">Start Verification Flow</button>
+                <div className="sell-actions">
+                    <button className="btn-dwell btn-dwell-primary">Start AI Audit Now <ArrowRight size={18} /></button>
+                    <button className="btn-dwell btn-dwell-secondary">Request Partner Assistance</button>
+                    <p className="fee-note">Fixed Partner Assistance Fee: <strong>₹4,999</strong></p>
                 </div>
             </main>
         </div>
     );
 };
+
+// Helper component for icons
+const UserCheck = ({ size, className }: { size: number, className?: string }) => <ShieldCheck size={size} className={className} />;

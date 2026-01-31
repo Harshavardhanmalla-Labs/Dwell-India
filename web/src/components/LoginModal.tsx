@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { X, Mail, ShieldCheck } from "lucide-react";
 import "./LoginModal.css";
@@ -42,22 +42,24 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         <div className="login-options">
           <button className="btn-login-option user" onClick={() => handleLogin('user')}>
             <Mail size={18} />
-            <span>Continue as Buyer/Owner</span>
+            <div className="option-text">
+              <span>Continue as Buyer/Owner</span>
+              <small>Verified listings & secure transactions</small>
+            </div>
           </button>
 
           <button className="btn-login-option builder" onClick={() => handleLogin('builder')}>
             <ShieldCheck size={18} />
-            <span>Builder Portal Access</span>
-          </button>
-
-          <button className="btn-login-option admin" onClick={() => handleLogin('admin')}>
-            <ShieldCheck size={18} />
-            <span>Admin Control Panel</span>
+            <div className="option-text">
+              <span>Professional Portal Access</span>
+              <small>Builders & Transaction Advisors</small>
+            </div>
           </button>
         </div>
 
         <p className="login-footer">
-          Corporate inquiry? <Link to="/builders" style={{ color: '#2563eb', fontWeight: 600 }}>Contact Sales</Link>
+          By continuing, you agree to Dwell's <br />
+          <strong>Fee-Cap Guarantee & Professional Terms</strong>
         </p>
       </div>
     </div>

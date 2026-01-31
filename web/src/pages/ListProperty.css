@@ -1,137 +1,154 @@
-/* ListProperty.css */
-
 .list-property-container {
-    background-color: #f8fafc;
-    min-height: 100vh;
     margin-top: 72px;
 }
 
 .list-header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: white;
-    padding: 4rem 0;
+    background: #0f172a;
+    padding: 6rem 0;
     text-align: center;
+    color: white;
 }
 
 .list-header h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
 }
 
 .list-header p {
-    font-size: 1.25rem;
     color: #94a3b8;
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.verification-steps {
+.sell-flow-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    margin-top: -3rem;
-    padding-bottom: 3rem;
+    margin-top: -4rem;
 }
 
-.verify-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+.flow-step-card {
     position: relative;
-    border: 1px solid #e2e8f0;
-    transition: transform 0.2s;
+    padding: 3rem 2rem;
+    text-align: center;
 }
 
-.verify-card:hover {
-    transform: translateY(-5px);
-}
-
-.verify-card.current {
-    border: 2px solid #2563eb;
-    background: #f0f7ff;
-}
-
-.step-badge {
+.step-count {
     position: absolute;
-    top: -12px;
-    left: 24px;
-    background: #2563eb;
-    color: white;
-    padding: 4px 16px;
-    border-radius: 99px;
-    font-size: 0.875rem;
-    font-weight: 600;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.1em;
 }
 
-.verify-icon {
-    width: 64px;
-    height: 64px;
-    background: #eff6ff;
-    color: #2563eb;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
+.icon-group {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 2rem auto;
 }
 
-.verify-card h3 {
+.ai-overlay {
+    position: absolute;
+    bottom: -5px;
+    right: -10px;
+    background: white;
+    padding: 2px;
+    border-radius: 4px;
+    color: #3b82f6;
+}
+
+.flow-step-card h3 {
     font-size: 1.5rem;
-    color: #0f172a;
     margin-bottom: 1rem;
 }
 
-.verify-card p {
+.flow-step-card p {
     color: #64748b;
+    font-size: 0.9375rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.privacy-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    background: #f1f5f9;
-    border-radius: 6px;
-    font-size: 0.75rem;
+.step-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    background: hsla(var(--color-primary), 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.step-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: #475569;
 }
 
-.mobile-app-link {
-    color: #2563eb;
-    font-weight: 600;
-    font-size: 0.875rem;
-    cursor: pointer;
+.step-checklist li svg {
+    color: #22c55e;
 }
 
-.legal-trust-banner {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    padding: 1rem 2rem;
-    border-radius: 12px;
+.trust-proxy-banner {
+    margin-top: 4rem;
+    background: hsla(var(--color-advisor), 0.05);
+    border-color: hsla(var(--color-advisor), 0.1);
+}
+
+.banner-content {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    color: #166534;
-    font-weight: 500;
+    gap: 2rem;
 }
 
-.action-area {
-    text-align: center;
-    padding-bottom: 5rem;
+.banner-icon {
+    font-size: 2.5rem;
 }
 
-.btn-lg {
-    padding: 1.25rem 3rem;
-    font-size: 1.125rem;
+.banner-content h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.banner-content p {
+    color: #64748b;
+    font-size: 0.9375rem;
+}
+
+.sell-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-bottom: 6rem;
+}
+
+.sell-actions .btn-dwell {
+    width: 100%;
+    max-width: 400px;
+}
+
+.fee-note {
+    font-size: 0.8125rem;
+    color: #64748b;
 }
 
 @media (max-width: 968px) {
-    .verification-steps {
+    .sell-flow-grid {
         grid-template-columns: 1fr;
+        margin-top: 2rem;
     }
 
-    .list-header {
-        padding: 3rem 1rem;
+    .list-header h1 {
+        font-size: 2.5rem;
     }
 }

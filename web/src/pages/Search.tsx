@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search as SearchIcon, MapPin, ShieldCheck, Filter, ArrowRight } from 'lucide-react';
+import { Search as SearchIcon, MapPin, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LoginModal } from '../components/LoginModal';
@@ -100,15 +100,27 @@ export const SearchPage = () => {
                                 <div key={listing.id} className="listing-card" onClick={() => navigate(`/property/${listing.id}`)}>
                                     <div className="listing-image">
                                         <img src={listing.image} alt={listing.title} />
-                                        {listing.verified && (
-                                            <div className="verified-badge">
-                                                <ShieldCheck size={14} />
-                                                <span>VERIFIED</span>
+                                        <div className="listing-badges-top">
+                                            {listing.verified && (
+                                                <div className="badge-premium badge-trust">
+                                                    <ShieldCheck size={12} />
+                                                    <span>Verified</span>
+                                                </div>
+                                            )}
+                                            <div className="trust-score-badge">
+                                                <span>Trust Score</span>
+                                                <strong>{listing.verified ? '9.8' : '7.2'}</strong>
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
                                     <div className="listing-info">
-                                        <div className="listing-price">{listing.price}</div>
+                                        <div className="listing-header-row">
+                                            <div className="listing-price">{listing.price}</div>
+                                            <div className="advisor-fee-tag">
+                                                <small>Advisor Fee:</small>
+                                                <span>₹4,999</span>
+                                            </div>
+                                        </div>
                                         <h3 className="listing-title">{listing.title}</h3>
                                         <div className="listing-loc">
                                             <MapPin size={14} />
@@ -123,8 +135,8 @@ export const SearchPage = () => {
                                         </div>
                                         <div className="listing-footer">
                                             <span className="listing-type">{listing.type}</span>
-                                            <button className="btn-view">
-                                                View Details
+                                            <button className="btn-dwell btn-dwell-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.8rem' }}>
+                                                View Trust Report
                                                 <ArrowRight size={14} />
                                             </button>
                                         </div>

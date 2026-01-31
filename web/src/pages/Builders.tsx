@@ -1,4 +1,4 @@
-import { Layout, Globe, Cpu, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, UserPlus, ShieldCheck, DollarSign } from 'lucide-react';
 import './Builders.css';
 
 export const BuildersPage = () => {
@@ -6,68 +6,76 @@ export const BuildersPage = () => {
         <div className="builders-container">
             <section className="builders-hero">
                 <div className="hero-content">
-                    <div className="badge">DWELL FOR BUILDERS</div>
-                    <h1>Digital Transformation for <br /><span className="gradient-text">Modern Developers</span></h1>
+                    <div className="badge">DWELL PARTNER ECOSYSTEM</div>
+                    <h1>Empowering Professionals to <br /><span className="text-gradient">Scale With Trust</span></h1>
                     <p className="subtitle">
-                        We don't just list properties. We bridge the trust gap with AI-powered due diligence and fully managed digital sales offices.
+                        Whether you are a Builder or a Certified Transaction Advisor, Dwell OS provides the infrastructure for high-trust real estate.
                     </p>
                     <div className="hero-actions">
-                        <button className="btn-primary">Become a Dwell Partner</button>
-                        <button className="btn-secondary">View Case Studies</button>
+                        <button className="btn-dwell btn-dwell-primary">Partner With Us</button>
+                        <button className="btn-dwell btn-dwell-secondary" style={{ background: 'transparent', color: 'white' }}>View Ecosystem Stats</button>
                     </div>
                 </div>
             </section>
 
-            <section className="value-props">
+            <section className="section-padding container">
                 <div className="section-header">
-                    <h2>Ecosystem Advantages</h2>
-                    <p>Why India's top builders choose Dwell over generic portals.</p>
+                    <h2>Choose Your Track</h2>
+                    <p>Standardized workflows for the modern Indian market.</p>
                 </div>
 
                 <div className="props-grid">
-                    <div className="prop-card">
-                        <div className="icon-box purple">
-                            <Cpu size={24} />
-                        </div>
-                        <h3>AI Paper Dredging</h3>
-                        <p>Our AI engines automatically verify title deeds, RERA filings, and mutation records, reducing legal vetting time by 80%.</p>
-                        <ul className="prop-features">
-                            <li><CheckCircle2 size={14} /> Automated Title Search</li>
-                            <li><CheckCircle2 size={14} /> RERA Compliance Scrutiny</li>
-                        </ul>
-                    </div>
-
-                    <div className="prop-card">
+                    {/* Builders Track */}
+                    <div className="prop-card glass-card">
                         <div className="icon-box blue">
-                            <Layout size={24} />
+                            <ShieldCheck size={28} />
                         </div>
-                        <h3>Managed Digital Twin</h3>
-                        <p>Too many properties? No time? We create and manage a standalone customizable website for every project you launch.</p>
+                        <h3>For Builders</h3>
+                        <p>Accelerate your sales cycle by connecting with pre-verified NRIs and domestic buyers.</p>
                         <ul className="prop-features">
-                            <li><CheckCircle2 size={14} /> Custom White-Label Portal</li>
-                            <li><CheckCircle2 size={14} /> 24/7 Virtual Sales Office</li>
+                            <li><CheckCircle2 size={16} /> Digitized RERA Compliance</li>
+                            <li><CheckCircle2 size={16} /> Global MRI Reach (Dwell US Bridge)</li>
+                            <li><CheckCircle2 size={16} /> Escrow-Locked Payouts</li>
                         </ul>
                     </div>
 
-                    <div className="prop-card">
-                        <div className="icon-box green">
-                            <Globe size={24} />
+                    {/* Advisors Track */}
+                    <div className="prop-card glass-card" style={{ borderColor: 'hsla(var(--color-advisor), 0.3)' }}>
+                        <div className="icon-box purple">
+                            <UserPlus size={28} />
                         </div>
-                        <h3>Cross-Border Trust</h3>
-                        <p>Leverage the Dwell US (isdwell.com) bridge. Get your Indian projects in front of Global NRIs with pre-vetted legal clarity.</p>
+                        <h3>For Advisors</h3>
+                        <p>Transition from "broker" to "professional consultant". Scale via our centralized platform.</p>
                         <ul className="prop-features">
-                            <li><CheckCircle2 size={14} /> Global NRI Reach</li>
-                            <li><CheckCircle2 size={14} /> Standardized Legal Bridge</li>
+                            <li><CheckCircle2 size={16} /> Dedicated Advisor Dashboard</li>
+                            <li><CheckCircle2 size={16} /> Pre-Negotiated Fixed Fees</li>
+                            <li><CheckCircle2 size={16} /> Professional Liability Coverage</li>
                         </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section className="section-padding container">
+                <div className="glass-card fee-system-card">
+                    <div className="fee-card-content">
+                        <div className="icon-box green" style={{ width: '48px', height: '48px' }}>
+                            <DollarSign size={24} />
+                        </div>
+                        <div>
+                            <h3>The Fair-Fee Framework</h3>
+                            <p>To ensure ecosystem adoption, we've capped advisor fees at ₹4,999 - ₹14,999 based on service tier. No more opaque "commissions".</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section className="cta-banner">
                 <div className="banner-inner">
-                    <h2>Ready to reduce your cost per acquisition?</h2>
-                    <p>Join the 40+ builders currently utilizing Dwell OS to manage their sales pipeline.</p>
-                    <button className="btn-banner">Schedule a Demo <ArrowRight size={18} /></button>
+                    <h2>Unicorn Ambition. Trusted Infrastructure.</h2>
+                    <p>Join 40+ Top Builders and 200+ Certified Advisors currently reshaping the Indian PropTech landscape.</p>
+                    <button className="btn-dwell btn-dwell-primary" style={{ background: 'white', color: '#1e3a8a', margin: '0 auto' }}>
+                        Join the Ecosystem <ArrowRight size={18} />
+                    </button>
                 </div>
             </section>
         </div>

@@ -10,6 +10,7 @@ import { PropertyProfile } from './pages/PropertyProfile';
 import { BuildersPage } from './pages/Builders';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
 
 const ProtectedRoute = ({ children, requiredRole }: { children: React.ReactNode, requiredRole?: string }) => {
   const { isAuthenticated, user } = useAuth();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/deal/:id" element={<ProtectedRoute><DealRoom /></ProtectedRoute>} />
           <Route path="/builder" element={<ProtectedRoute requiredRole="builder"><BuilderDashboard /></ProtectedRoute>} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </AuthProvider>
   );

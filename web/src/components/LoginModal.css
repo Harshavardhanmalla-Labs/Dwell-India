@@ -108,8 +108,22 @@
     background: #fffbeb;
 }
 
+.btn-login-option .option-text {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
 .btn-login-option span {
     font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.btn-login-option small {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
 }
 
 .btn-login-option svg {

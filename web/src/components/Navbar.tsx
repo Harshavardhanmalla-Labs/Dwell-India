@@ -29,18 +29,8 @@ export const Navbar = () => {
             Sell
           </Link>
           <Link to="/builders" className="nav-link">
-            Builders
+            Partners
           </Link>
-          {isAuthenticated && user?.role === 'admin' && (
-            <Link to="/admin" className="nav-link highlight">
-              Admin Ops
-            </Link>
-          )}
-          {isAuthenticated && user?.role === 'builder' && (
-            <Link to="/builder" className="nav-link highlight">
-              Partner Portal
-            </Link>
-          )}
         </div>
 
         <div className="navbar-actions">
@@ -62,6 +52,16 @@ export const Navbar = () => {
                     <p className="user-role">{user?.role?.toUpperCase()}</p>
                   </div>
                   <div className="dropdown-divider"></div>
+                  {user?.role === 'admin' && (
+                    <Link to="/admin" className="dropdown-link" onClick={() => setShowProfileMenu(false)}>
+                      Admin Console
+                    </Link>
+                  )}
+                  {user?.role === 'builder' && (
+                    <Link to="/builder" className="dropdown-link" onClick={() => setShowProfileMenu(false)}>
+                      Builder Dashboard
+                    </Link>
+                  )}
                   <button className="logout-btn" onClick={() => { logout(); setShowProfileMenu(false); }}>
                     <LogOut size={14} />
                     Sign Out
@@ -70,13 +70,8 @@ export const Navbar = () => {
               )}
             </div>
           ) : (
-            <button className="btn-signin" onClick={() => setIsLoginModalOpen(true)}>
-              Log In
-            </button>
-          )}
-          {!isAuthenticated && (
-            <button className="btn-get-started" onClick={() => setIsLoginModalOpen(true)}>
-              Get Started
+            <button className="btn-dwell btn-dwell-primary" onClick={() => setIsLoginModalOpen(true)}>
+              Join Ecosystem
             </button>
           )}
         </div>

@@ -4,7 +4,7 @@ interface DwellLogoProps {
     className?: string;
 }
 
-const DwellLogo: React.FC<DwellLogoProps> = ({ className = "" }) => {
+export const DwellLogo: React.FC<DwellLogoProps> = ({ className = "" }) => {
     return (
         <svg
             width="100%"

@@ -183,44 +183,65 @@
     background: #1d4ed8;
 }
 
-/* Features Section */
-.features-section {
-    padding: 5rem 1rem;
+.section-header-center {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header-center p {
+    color: #64748b;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.fee-lock-card {
     background: #f8fafc;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.feature-card {
-    background: white;
-    padding: 2rem;
+    border: 1px solid #e2e8f0;
     border-radius: 1rem;
-    border: 1px solid #f1f5f9;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    max-width: 400px;
 }
 
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+.fee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.fee-header span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.05em;
+}
+
+.fee-header strong {
+    font-size: 1.25rem;
+    color: #0f172a;
+    font-family: 'Outfit', sans-serif;
+}
+
+.fee-lock-card p {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.advisor-section {
+    background: white;
+}
+
+.feature-card.glass-card {
+    border-radius: 1.5rem;
+    padding: 2.5rem;
 }
 
 .feature-icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    color: #2563eb;
-    background: #eff6ff;
+    background: hsla(var(--color-primary), 0.1);
+    color: hsl(var(--color-primary));
 }
 
 .feature-title {
@@ -307,10 +328,46 @@
     }
 }
 
-/* Map Teaser */
-.map-teaser {
-    padding: 6rem 0;
-    background: white;
+.workflow-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+.step-item {
+    text-align: center;
+    position: relative;
+}
+
+.step-num {
+    font-size: 3.5rem;
+    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    color: hsla(var(--color-primary), 0.1);
+    margin-bottom: -2rem;
+}
+
+.step-item h4 {
+    font-size: 1.5rem;
+    color: #0f172a;
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.step-item p {
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .workflow-steps {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
 }
 
 .map-layout {

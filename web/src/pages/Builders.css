@@ -194,12 +194,49 @@
     transform: scale(1.05);
 }
 
-@media (max-width: 1024px) {
+.fee-system-card {
+    border: 1px solid hsla(var(--color-success), 0.2);
+    background: hsla(var(--color-success), 0.05);
+}
+
+.fee-card-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.fee-card-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #f1f5f9;
+}
+
+.fee-card-content p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 1rem;
+    max-width: 800px;
+}
+
+.props-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
     .props-grid {
         grid-template-columns: 1fr;
     }
 
-    .builders-hero h1 {
-        font-size: 2.5rem;
+    .fee-card-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
     }
+}
+
+.prop-card.glass-card {
+    border-radius: 2rem;
+    padding: 3rem;
 }
