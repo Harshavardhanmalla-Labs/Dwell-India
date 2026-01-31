@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 interface User {
     id: string;
@@ -6,26 +6,28 @@ interface User {
     email: string;
 }
 
+interface GoogleLoginData {
+    email: string;
+    name: string;
+}
+
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
-    login: (googleData: any) => Promise<void>;
+    login: (googleData: GoogleLoginData) => Promise<void>;
     logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
+    // Initialize state from localStorage to avoid setState in effect
+    const [user, setUser] = useState<User | null>(() => {
         const savedUser = localStorage.getItem('dwell_user');
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
-        }
-    }, []);
+        return savedUser ? JSON.parse(savedUser) as User : null;
+    });
 
-    const login = async (googleData: any) => {
+    const login = async (googleData: GoogleLoginData) => {
         try {
             const response = await fetch('http://localhost:8000/auth/google/login', {
                 method: 'POST',
@@ -61,6 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {

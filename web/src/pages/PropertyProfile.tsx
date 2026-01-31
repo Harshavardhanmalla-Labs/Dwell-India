@@ -5,11 +5,21 @@ import { useAuth } from '../context/AuthContext';
 import { LoginModal } from '../components/LoginModal';
 import './PropertyProfile.css';
 
+interface Property {
+    id: string;
+    title: string;
+    city: string;
+    state: string;
+    price: number;
+    address_line?: string;
+    message?: string;
+}
+
 export const PropertyProfile = () => {
     const { id } = useParams();
     const { isAuthenticated } = useAuth();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [property, setProperty] = useState<any>(null);
+    const [property, setProperty] = useState<Property | null>(null);
     const [loading, setLoading] = useState(true);
 
     const [viewMode, setViewMode] = useState<'original' | 'staged'>('original');

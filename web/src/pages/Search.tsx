@@ -17,6 +17,22 @@ interface Listing {
     gated?: boolean;
 }
 
+interface BackendListing {
+    id: string;
+    title?: string;
+    price: number;
+    address_line?: string;
+    property_type?: string;
+    gated?: boolean;
+    property?: {
+        title?: string;
+        address_line?: string;
+        property_type?: string;
+        verification_status?: string;
+        image_url?: string;
+    };
+}
+
 export const SearchPage = () => {
     const { isAuthenticated } = useAuth();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -37,7 +53,7 @@ export const SearchPage = () => {
                 const data = await response.json();
 
                 // Map backend Listing model to frontend Listing interface
-                const mappedListings = data.results.map((l: any) => ({
+                const mappedListings = data.results.map((l: BackendListing) => ({
                     id: l.id,
                     title: l.property?.title || l.title || "Verified Property",
                     price: `₹${(l.price / 100000).toFixed(1)} Lakh` + (l.price >= 10000000 ? ` (${(l.price / 10000000).toFixed(2)} Cr)` : ""),
