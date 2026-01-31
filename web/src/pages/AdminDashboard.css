@@ -10,10 +10,13 @@
 }
 
 .admin-sidebar {
-    width: 260px;
+    width: 280px;
     background-color: #1e293b;
     border-right: 1px solid #334155;
     padding: 2rem 1.5rem;
+    height: calc(100vh - 72px);
+    position: sticky;
+    top: 72px;
 }
 
 .admin-logo {
@@ -86,6 +89,35 @@
 
 .admin-header p {
     color: #64748b;
+}
+
+.admin-stats-bar {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    background: #1e293b;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #334155;
+}
+
+.mini-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mini-stat .label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.mini-stat .val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #3b82f6;
 }
 
 .queue-grid {

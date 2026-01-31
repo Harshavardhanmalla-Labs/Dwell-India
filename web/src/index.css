@@ -141,31 +141,8 @@ h6 {
   border-color: hsl(var(--color-text-muted));
 }
 
-/* Navigation */
-.navbar {
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  background: hsla(var(--color-bg-surface), 0.8);
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid hsla(var(--color-border), 0.5);
-}
+/* Navigation styles removed - using Navbar.css */
 
-.logo {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-secondary)));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.05em;
-}
 
 /* Cards */
 .card {

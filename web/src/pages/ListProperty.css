@@ -3,6 +3,7 @@
 .list-property-container {
     background-color: #f8fafc;
     min-height: 100vh;
+    margin-top: 72px;
 }
 
 .list-header {

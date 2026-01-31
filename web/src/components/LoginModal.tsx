@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { X, Mail, ShieldCheck } from "lucide-react";
 import "./LoginModal.css";
-import DwellLogo from "./DwellLogo";
+import DwellLogo from "./DwellLogo.tsx";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -14,8 +15,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const handleGoogleLogin = () => {
-    login({ name: "Harsha Malla", email: "harsha@dwellindia.io" });
+  const handleLogin = (role: 'user' | 'builder' | 'admin') => {
+    login({
+      name: role === 'admin' ? "Admin User" : role === 'builder' ? "Premium Builder" : "Dwell User",
+      email: `${role}@dwellindia.io`,
+      role
+    });
     onClose();
   };
 
@@ -27,36 +32,32 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <div className="login-header">
-          {/* Replace the placeholder “D” with the new Dwell logo */}
           <div className="dwell-logo-small">
             <DwellLogo className="logo-icon" />
           </div>
-          <h2>Welcome to Dwell India</h2>
-          <p>India's first trust-anchored marketplace.</p>
+          <h2>Access the Ecosystem</h2>
+          <p>Trust-anchored transparency for every stakeholder.</p>
         </div>
 
-        <div className="login-benefits">
-          <div className="benefit">
-            <ShieldCheck size={18} color="#22c55e" />
-            <span>Unlock 30-Year property history</span>
-          </div>
-          <div className="benefit">
-            <Mail size={18} color="#3b82f6" />
-            <span>Contact verified owners directly</span>
-          </div>
-        </div>
+        <div className="login-options">
+          <button className="btn-login-option user" onClick={() => handleLogin('user')}>
+            <Mail size={18} />
+            <span>Continue as Buyer/Owner</span>
+          </button>
 
-        <button className="btn-google-login" onClick={handleGoogleLogin}>
-          <img
-            src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png"
-            alt="Google"
-            width="20"
-          />
-          Continue with Google
-        </button>
+          <button className="btn-login-option builder" onClick={() => handleLogin('builder')}>
+            <ShieldCheck size={18} />
+            <span>Builder Portal Access</span>
+          </button>
+
+          <button className="btn-login-option admin" onClick={() => handleLogin('admin')}>
+            <ShieldCheck size={18} />
+            <span>Admin Control Panel</span>
+          </button>
+        </div>
 
         <p className="login-footer">
-          By continuing, you agree to Dwell's Privacy Policy & Terms.
+          Corporate inquiry? <Link to="/builders" style={{ color: '#2563eb', fontWeight: 600 }}>Contact Sales</Link>
         </p>
       </div>
     </div>

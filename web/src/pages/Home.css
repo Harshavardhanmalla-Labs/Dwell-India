@@ -1,9 +1,14 @@
 /* Home.css */
 
+.home-container {
+    margin-top: 72px;
+}
+
 .hero-section {
     position: relative;
-    height: 80vh;
-    min-height: 600px;
+    padding-top: 4rem;
+    /* Increased padding to clear navbar */
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +17,6 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: white;
     text-align: center;
-    padding: 72px 1rem 0;
 }
 
 .hero-bg {

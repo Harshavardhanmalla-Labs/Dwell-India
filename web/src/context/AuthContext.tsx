@@ -4,11 +4,13 @@ interface User {
     id: string;
     full_name: string;
     email: string;
+    role: 'user' | 'builder' | 'admin';
 }
 
 interface GoogleLoginData {
     email: string;
     name: string;
+    role?: 'user' | 'builder' | 'admin';
 }
 
 interface AuthContextType {
@@ -21,7 +23,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Initialize state from localStorage to avoid setState in effect
     const [user, setUser] = useState<User | null>(() => {
         const savedUser = localStorage.getItem('dwell_user');
         return savedUser ? JSON.parse(savedUser) as User : null;
@@ -29,20 +30,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (googleData: GoogleLoginData) => {
         try {
-            const response = await fetch('http://localhost:8000/auth/google/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    google_id: 'google-' + Math.random().toString(36).substr(2, 6), // Mocking Google response ID
-                    email: googleData.email,
-                    name: googleData.name
-                })
-            });
-            const data = await response.json();
-            const authenticatedUser = {
-                id: data.user.id,
-                full_name: data.user.full_name,
-                email: data.user.email
+            // In a real app, the backend would return the user role based on their profile.
+            // For this ecosystem, we'll allow role selection in the login flow for demoing.
+            const authenticatedUser: User = {
+                id: 'dwell-user-' + Math.random().toString(36).substr(2, 6),
+                full_name: googleData.name,
+                email: googleData.email,
+                role: googleData.role || 'user'
             };
             setUser(authenticatedUser);
             localStorage.setItem('dwell_user', JSON.stringify(authenticatedUser));

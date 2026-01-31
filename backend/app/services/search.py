@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .models import Listing, Property
+from ..models import Listing, Property
 from typing import List
 
 class SearchService:

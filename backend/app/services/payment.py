@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .models import PaymentTransaction, Deal
+from ..models import PaymentTransaction, Deal
 import uuid
 from datetime import datetime
 from enum import Enum

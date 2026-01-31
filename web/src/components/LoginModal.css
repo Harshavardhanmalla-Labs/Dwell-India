@@ -66,43 +66,66 @@
     margin-bottom: 2rem;
 }
 
-.login-benefits {
-    background: #f8fafc;
-    padding: 1.25rem;
-    border-radius: 16px;
-    margin-bottom: 2rem;
-    text-align: left;
-}
-
-.benefit {
+.login-options {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    color: #1e293b;
-    font-weight: 600;
+    margin-bottom: 2rem;
 }
 
-.btn-google-login {
+.btn-login-option {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 1rem;
-    padding: 1rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    padding: 1.125rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
     background: white;
     color: #1e293b;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn-google-login:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+.btn-login-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-login-option.user:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.btn-login-option.builder:hover {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.btn-login-option.admin:hover {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.btn-login-option span {
+    font-size: 0.9375rem;
+}
+
+.btn-login-option svg {
+    color: #94a3b8;
+}
+
+.btn-login-option.user:hover svg {
+    color: #3b82f6;
+}
+
+.btn-login-option.builder:hover svg {
+    color: #22c55e;
+}
+
+.btn-login-option.admin:hover svg {
+    color: #f59e0b;
 }
 
 .login-footer {

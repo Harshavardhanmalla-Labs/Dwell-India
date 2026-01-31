@@ -83,46 +83,13 @@ export const SearchPage = () => {
                         <SearchIcon size={18} />
                         <input type="text" defaultValue={initialQuery} placeholder="Search properties..." />
                     </div>
-                    <button className="btn-filter">
-                        <Filter size={18} />
-                        <span>Filters</span>
-                    </button>
                 </div>
             </header>
 
             <main className="container search-results-layout">
-                <aside className="search-filters-sidebar">
-                    <div className="filter-group">
-                        <h4>Property Type</h4>
-                        <label><input type="checkbox" defaultChecked /> Apartments</label>
-                        <label><input type="checkbox" /> Villas</label>
-                        <label><input type="checkbox" /> Plots</label>
-                    </div>
-                    <div className="filter-group">
-                        <h4>Verification</h4>
-                        <label><input type="checkbox" defaultChecked /> Only Dwell Verified</label>
-                    </div>
-                    <div className="filter-group">
-                        <h4>Price Range</h4>
-                        <input type="range" min="0" max="10" />
-                        <div className="range-labels">
-                            <span>₹0</span>
-                            <span>₹10Cr+</span>
-                        </div>
-                    </div>
-                </aside>
-
                 <div className="search-results-content">
                     <div className="results-header">
-                        <h2>{listings.length} Properties in Hyderabad</h2>
-                        <div className="sort-by">
-                            <span>Sort by:</span>
-                            <select>
-                                <option>Most Verified</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
-                            </select>
-                        </div>
+                        <h2>{listings.length} Properties Found</h2>
                     </div>
 
                     {loading ? (

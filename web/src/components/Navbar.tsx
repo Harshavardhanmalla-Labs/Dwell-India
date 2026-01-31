@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { User, LogOut } from "lucide-react";
 import "./Navbar.css";
-import DwellLogo from "./DwellLogo";
+import DwellLogo from "./DwellLogo.tsx";
+import { LoginModal } from "./LoginModal";
 
 export const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
           <div className="brand-logo">
-            {/* Use the shared Dwell logo mark instead of the generic Home icon */}
             <DwellLogo className="logo-icon" />
           </div>
           <span className="brand-text">Dwell</span>
@@ -22,14 +23,24 @@ export const Navbar = () => {
 
         <div className="navbar-links">
           <Link to="/search" className="nav-link">
-            Search
+            Buy
           </Link>
-          <Link to="/builder" className="nav-link">
-            For Builders
+          <Link to="/list-property" className="nav-link">
+            Sell
           </Link>
-          <Link to="/admin" className="nav-link">
-            Admin
+          <Link to="/builders" className="nav-link">
+            Builders
           </Link>
+          {isAuthenticated && user?.role === 'admin' && (
+            <Link to="/admin" className="nav-link highlight">
+              Admin Ops
+            </Link>
+          )}
+          {isAuthenticated && user?.role === 'builder' && (
+            <Link to="/builder" className="nav-link highlight">
+              Partner Portal
+            </Link>
+          )}
         </div>
 
         <div className="navbar-actions">
@@ -39,32 +50,38 @@ export const Navbar = () => {
                 className="user-button"
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
               >
-                <User size={18} />
+                <div className="avatar-small">
+                  <User size={16} />
+                </div>
                 <span>{user?.full_name?.split(" ")[0] || "User"}</span>
               </button>
               {showProfileMenu && (
                 <div className="profile-dropdown">
-                  <div className="profile-info">
-                    <div className="profile-name">{user?.full_name}</div>
-                    <div className="profile-email">{user?.email}</div>
+                  <div className="dropdown-header">
+                    <p className="user-name">{user?.full_name}</p>
+                    <p className="user-role">{user?.role?.toUpperCase()}</p>
                   </div>
-                  <button className="logout-btn" onClick={logout}>
-                    <LogOut size={16} />
+                  <div className="dropdown-divider"></div>
+                  <button className="logout-btn" onClick={() => { logout(); setShowProfileMenu(false); }}>
+                    <LogOut size={14} />
                     Sign Out
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            <Link to="/" className="btn-signin">
+            <button className="btn-signin" onClick={() => setIsLoginModalOpen(true)}>
               Log In
-            </Link>
+            </button>
           )}
-          <Link to="/" className="btn-get-started">
-            Get Started
-          </Link>
+          {!isAuthenticated && (
+            <button className="btn-get-started" onClick={() => setIsLoginModalOpen(true)}>
+              Get Started
+            </button>
+          )}
         </div>
       </div>
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </nav>
   );
 };

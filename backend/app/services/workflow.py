@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List, Dict, Any
 
 from sqlalchemy.orm import Session
-from .models import Deal
+from ..models import Deal
 
 class TransactionState(str, Enum):
     INITIATED = "initiated"
