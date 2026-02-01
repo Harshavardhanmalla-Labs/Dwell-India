@@ -1,0 +1,9 @@
+:root {
+    --navbar-h: 72px;
+}
+
+/* Global shell: one place to handle fixed navbar offset */
+.app-shell {
+    padding-top: var(--navbar-h);
+    min-height: calc(100vh - var(--navbar-h));
+}
