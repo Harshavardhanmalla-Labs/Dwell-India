@@ -3,6 +3,11 @@ set -e
 
 # Run migrations
 echo "Running database migrations..."
+# Check if there are any migration versions
+if [ -z "$(ls -A alembic/versions/*.py 2>/dev/null)" ]; then
+    echo "No migrations found. Generating initial migration..."
+    alembic revision --autogenerate -m "Initial_Production_Schema"
+fi
 alembic upgrade head
 
 # Start application
