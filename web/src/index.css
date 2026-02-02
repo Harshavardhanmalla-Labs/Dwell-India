@@ -1,13 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
-
 :root {
   /* Brand Colors - HSL */
-  --color-primary: 220 90% 56%;
-  /* Vivid Blue */
-  --color-primary-dark: 220 90% 46%;
-  --color-success: 142 70% 45%;
-  /* Verified Green */
+  --color-primary: 235 80% 50%;
+  /* Deep Indigo */
+  --color-primary-dark: 235 80% 40%;
+  --color-success: 158 95% 34%;
+  /* Trust Emerald */
   --color-warning: 38 92% 50%;
   /* Alert Amber */
   --color-danger: 0 84% 60%;

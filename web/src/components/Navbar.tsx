@@ -52,6 +52,10 @@ export const Navbar = () => {
                     <p className="user-role">{user?.role?.toUpperCase()}</p>
                   </div>
                   <div className="dropdown-divider"></div>
+                  <div className="dropdown-dividier"></div>
+                  <Link to="/dashboard" className="dropdown-link" onClick={() => setShowProfileMenu(false)}>
+                    My Dashboard
+                  </Link>
                   {user?.role === 'admin' && (
                     <Link to="/admin" className="dropdown-link" onClick={() => setShowProfileMenu(false)}>
                       Admin Console

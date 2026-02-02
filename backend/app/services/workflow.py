@@ -11,6 +11,7 @@ class TransactionState(str, Enum):
     TOKEN_PAID = "token_paid"
     LEGAL_REVIEW = "legal_review"
     DRAFTING = "drafting"
+    SETTLEMENT_CONFIRMED = "settlement_confirmed"
     REGISTRATION_READY = "registration_ready"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
@@ -30,6 +31,7 @@ class WorkflowEngine:
                 TransactionState.OFFER_MADE,
                 TransactionState.TOKEN_PAID,
                 TransactionState.DRAFTING,
+                TransactionState.SETTLEMENT_CONFIRMED,
                 TransactionState.REGISTRATION_READY
             ],
             "registration_portal": "DHARANI"
@@ -42,6 +44,7 @@ class WorkflowEngine:
                 TransactionState.TOKEN_PAID,
                 TransactionState.LEGAL_REVIEW, # AP often requires more manual legal check
                 TransactionState.DRAFTING,
+                TransactionState.SETTLEMENT_CONFIRMED,
                 TransactionState.REGISTRATION_READY
             ],
             "registration_portal": "CARD"
@@ -58,7 +61,9 @@ class WorkflowEngine:
             (TransactionState.OFFER_MADE, "accept_offer"): TransactionState.OFFER_ACCEPTED,
             (TransactionState.OFFER_ACCEPTED, "pay_token"): TransactionState.TOKEN_PAID,
             (TransactionState.TOKEN_PAID, "start_drafting"): TransactionState.DRAFTING,
-            (TransactionState.DRAFTING, "approve_draft"): TransactionState.REGISTRATION_READY,
+            (TransactionState.DRAFTING, "approve_draft"): TransactionState.DRAFTING, # Wait for settlement? Or is drafting done?
+            (TransactionState.DRAFTING, "confirm_settlement"): TransactionState.SETTLEMENT_CONFIRMED,
+            (TransactionState.SETTLEMENT_CONFIRMED, "ready_registration"): TransactionState.REGISTRATION_READY,
             (TransactionState.REGISTRATION_READY, "complete"): TransactionState.COMPLETED,
         }
         

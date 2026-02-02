@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { FileText, CheckCircle2, Shield, PhoneOutgoing, ArrowRight } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 import './DealRoom.css';
+import { useAuth } from '../context/AuthContext';
 
 const STEPS = [
     { label: 'Offer', status: 'completed' },
     { label: 'Token Advance', status: 'current' },
-    { label: 'Legal Drafting', status: 'pending' },
+    { label: 'Documents', status: 'pending' },
+    { label: 'Settlement', status: 'pending' },
     { label: 'Registration', status: 'pending' },
 ];
 
 export const DealRoom = () => {
+    const { token } = useAuth();
+    const [settlementStatus, setSettlementStatus] = useState<'IDLE' | 'PENDING' | 'CONFIRMED'>('IDLE');
     const [paymentStatus, setPaymentStatus] = useState<'IDLE' | 'PENDING' | 'COMPLETED'>('IDLE');
     const [signatureStatus, setSignatureStatus] = useState<'IDLE' | 'SENT' | 'SIGNED'>('IDLE');
     const [draftingStatus, setDraftingStatus] = useState<'IDLE' | 'DRAFTING' | 'READY'>('IDLE');
@@ -27,6 +32,28 @@ export const DealRoom = () => {
     const handleInitiateEscrow = () => {
         setPaymentStatus('PENDING');
         setTimeout(() => setPaymentStatus('COMPLETED'), 2000);
+    };
+
+    const handleSettlementConfirm = async () => {
+        if (!token) {
+            alert("Please login to confirm settlement");
+            return;
+        }
+        setSettlementStatus('PENDING');
+        try {
+            const response = await fetch(`${API_BASE_URL}/transactions/confirm-settlement?deal_id=mock_deal_123`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                setSettlementStatus('CONFIRMED');
+            }
+        } catch (e) {
+            console.error(e);
+            setSettlementStatus('IDLE');
+        }
     };
 
     const handleInitiateSigning = () => {
@@ -253,6 +280,15 @@ export const DealRoom = () => {
                             <>
                                 <input type="text" placeholder="Type a secure message..." />
                                 <button className="btn-send"><ArrowRight size={20} /></button>
+                                {signatureStatus === 'SIGNED' && settlementStatus !== 'CONFIRMED' && (
+                                    <button
+                                        className="btn-escrow-action"
+                                        onClick={handleSettlementConfirm}
+                                        style={{ background: '#059669', marginLeft: '1rem' }}
+                                    >
+                                        {settlementStatus === 'PENDING' ? 'Confirming...' : 'Confirm Final Settlement'}
+                                    </button>
+                                )}
                             </>
                         )}
                     </div>

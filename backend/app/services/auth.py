@@ -6,15 +6,36 @@ class AuthService:
     @staticmethod
     def login_via_google(db: Session, google_data: dict):
         """
-        Simulates Google OAuth user registration/login.
-        In production, this would verify the ID token from Google.
+        Production Google OAuth user registration/login.
+        Verifies the ID token from Google.
         """
-        google_id = google_data.get("google_id")
-        email = google_data.get("email")
-        name = google_data.get("name")
+        from google.oauth2 import id_token
+        from google.auth.transport import requests
+        from ..core.config import settings
+        from ..core import security
+        import uuid
         
+        token = google_data.get("credential") # The ID token from frontend
+        
+        try:
+            # Verify the token
+            idinfo = id_token.verify_oauth2_token(
+                token, 
+                requests.Request(), 
+                settings.GOOGLE_CLIENT_ID
+            )
+
+            # ID token is valid. Get the user's Google Account ID from the decoded token.
+            google_id = idinfo['sub']
+            email = idinfo['email']
+            name = idinfo.get('name')
+            picture = idinfo.get('picture')
+        except ValueError as e:
+            # Invalid token
+            raise Exception(f"Invalid Google Token: {str(e)}")
+
         # Check if user exists
-        user = db.query(models.User).filter(models.User.google_id == google_id).first()
+        user = db.query(models.User).filter(models.User.email == email).first()
         
         if not user:
             # Create new user
@@ -23,13 +44,38 @@ class AuthService:
                 google_id=google_id,
                 email=email,
                 full_name=name,
-                phone_number=f"+91-{str(uuid.uuid4().int)[:10]}" # Mock phone for new user
+                # phone_number needs to be collected separately in a profile update flow
+                # For now, we leave it or generate a temporary one if schema requires it 
+                # (Schema has unique constraint on phone, so we might need to be careful)
+                phone_number=f"temp_{str(uuid.uuid4())[:8]}" # Placeholder
             )
             db.add(user)
             db.commit()
             db.refresh(user)
-            
-        return user
+        else:
+            # Update google_id if missed (e.g. created by other means)
+            if not user.google_id:
+                user.google_id = google_id
+                db.add(user)
+                db.commit()
+                db.refresh(user)
+
+        # Generate tokens
+        access_token = security.create_access_token(data={"sub": str(user.id)})
+        refresh_token = security.create_refresh_token(data={"sub": str(user.id)})
+        
+        # Store refresh token hash (if we were strictly following the prompt, we'd hash it)
+        # For now, let's keep it simple and return it. Ideally, we persist a hash in DB.
+        user.hashed_refresh_token = security.get_password_hash(refresh_token)
+        db.add(user)
+        db.commit()
+        
+        return {
+            "user": user,
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer"
+        }
 
     @staticmethod
     def get_public_property_data(property_obj: models.Property):

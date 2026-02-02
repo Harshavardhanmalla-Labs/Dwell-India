@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search as SearchIcon, MapPin, ShieldCheck, ArrowRight } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { LoginModal } from "../components/LoginModal";
+import { PropertyCard } from "../components/PropertyCard";
+import { formatPriceINR, safeString } from "../utils/format";
 import "./Search.css";
 
 interface Listing {
@@ -14,7 +15,7 @@ interface Listing {
     verified: boolean;
     image: string;
     gated?: boolean;
-    trustScore?: number; // real value from backend ideally
+    trustScore: number;
 }
 
 interface BackendListing {
@@ -37,26 +38,8 @@ interface BackendListing {
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
-function formatPriceINR(price: number) {
-    // assume price is INR (not paise). If backend sends paise, fix at source.
-    if (!Number.isFinite(price) || price <= 0) return "Price on request";
-
-    const lakh = price / 100000;
-    const cr = price / 10000000;
-
-    if (price >= 10000000) {
-        return `₹${cr.toFixed(2)} Cr`;
-    }
-    return `₹${lakh.toFixed(1)} Lakh`;
-}
-
-function safeString(v?: string, fallback = "") {
-    const s = (v ?? "").trim();
-    return s.length ? s : fallback;
-}
 
 export const SearchPage = () => {
-    const { isAuthenticated } = useAuth();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -202,76 +185,12 @@ export const SearchPage = () => {
                     {!loading && !errorMsg && (
                         <div className="listings-grid">
                             {listings.map((listing) => (
-                                <div
+                                <PropertyCard
                                     key={listing.id}
-                                    className="listing-card"
-                                    role="button"
-                                    tabIndex={0}
-                                    onClick={() => onCardClick(listing.id)}
-                                    onKeyDown={(e) => e.key === "Enter" && onCardClick(listing.id)}
-                                >
-                                    <div className="listing-image">
-                                        <img src={listing.image} alt={listing.title} loading="lazy" />
-                                        <div className="listing-badges-top">
-                                            {listing.verified && (
-                                                <div className="badge-premium badge-trust">
-                                                    <ShieldCheck size={12} />
-                                                    <span>Verified</span>
-                                                </div>
-                                            )}
-                                            <div className="trust-score-badge" title="Derived from verification + evidence signals">
-                                                <span>Trust Score</span>
-                                                <strong>{(listing.trustScore ?? 0).toFixed(1)}</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="listing-info">
-                                        <div className="listing-header-row">
-                                            <div className="listing-price">{listing.priceLabel}</div>
-                                            <div className="advisor-fee-tag">
-                                                <small>Advisor Fee:</small>
-                                                <span>₹4,999</span>
-                                            </div>
-                                        </div>
-
-                                        <h3 className="listing-title" title={listing.title}>{listing.title}</h3>
-
-                                        <div className="listing-loc">
-                                            <MapPin size={14} />
-                                            <span>
-                                                {isAuthenticated ? (
-                                                    listing.location
-                                                ) : (
-                                                    <button
-                                                        type="button"
-                                                        className="loc-gated"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setIsLoginModalOpen(true);
-                                                        }}
-                                                    >
-                                                        Sign in to view full address
-                                                    </button>
-                                                )}
-                                            </span>
-                                        </div>
-
-                                        <div className="listing-footer">
-                                            <span className="listing-type">{listing.type}</span>
-                                            <button
-                                                type="button"
-                                                className="btn-dwell btn-dwell-primary btn-compact"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    onCardClick(listing.id);
-                                                }}
-                                            >
-                                                View Trust Report <ArrowRight size={14} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                    {...listing}
+                                    onCardClick={onCardClick}
+                                    onLoginReq={() => setIsLoginModalOpen(true)}
+                                />
                             ))}
                         </div>
                     )}

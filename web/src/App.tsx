@@ -5,6 +5,7 @@ import { ListProperty } from "./pages/ListProperty";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { DealRoom } from "./pages/DealRoom";
 import { BuilderDashboard } from "./pages/BuilderDashboard";
+import { Dashboard } from "./pages/Dashboard";
 import { SearchPage } from "./pages/Search";
 import { PropertyProfile } from "./pages/PropertyProfile";
 import { BuildersPage } from "./pages/Builders";
@@ -34,6 +35,8 @@ export default function App() {
             <Route path="/builders" element={<BuildersPage />} />
             <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
             <Route path="/deal/:id" element={<ProtectedRoute><DealRoom /></ProtectedRoute>} />
+            <Route path="/deal-room" element={<ProtectedRoute><DealRoom /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/builder" element={<ProtectedRoute requiredRole="builder"><BuilderDashboard /></ProtectedRoute>} />
           </Routes>
         </main>

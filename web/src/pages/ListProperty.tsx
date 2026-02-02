@@ -85,7 +85,7 @@ export const ListProperty: React.FC = () => {
         []
     );
 
-    const active = steps.find((s) => s.id === activeStep)!;
+    // const active = steps.find((s) => s.id === activeStep)!;
 
     return (
         <div className="list-property-container">

@@ -30,6 +30,8 @@ class User(Base):
     google_id = Column(String, unique=True, index=True, nullable=True)
     phone_number = Column(String, unique=True, index=True)
     full_name = Column(String, nullable=True)
+    role = Column(Enum(UserRole), default=UserRole.buyer)
+    hashed_refresh_token = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

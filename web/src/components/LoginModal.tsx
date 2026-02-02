@@ -1,9 +1,10 @@
 import React from "react";
 import { } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { X, Mail, ShieldCheck } from "lucide-react";
+import { X } from "lucide-react";
 import "./LoginModal.css";
 import DwellLogo from "./DwellLogo.tsx";
+import { GoogleLogin } from '@react-oauth/google';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -15,13 +16,16 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const handleLogin = (role: 'user' | 'builder' | 'admin') => {
-    login({
-      name: role === 'admin' ? "Admin User" : role === 'builder' ? "Premium Builder" : "Dwell User",
-      email: `${role}@dwellindia.io`,
-      role
-    });
-    onClose();
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    if (credentialResponse.credential) {
+      try {
+        await login(credentialResponse.credential);
+        onClose();
+      } catch (e) {
+        console.error("Login failed", e);
+        // Handle error visually
+      }
+    }
   };
 
   return (
@@ -39,22 +43,17 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           <p>Trust-anchored transparency for every stakeholder.</p>
         </div>
 
-        <div className="login-options">
-          <button className="btn-login-option user" onClick={() => handleLogin('user')}>
-            <Mail size={18} />
-            <div className="option-text">
-              <span>Continue as Buyer/Owner</span>
-              <small>Verified listings & secure transactions</small>
-            </div>
-          </button>
-
-          <button className="btn-login-option builder" onClick={() => handleLogin('builder')}>
-            <ShieldCheck size={18} />
-            <div className="option-text">
-              <span>Professional Portal Access</span>
-              <small>Builders & Transaction Advisors</small>
-            </div>
-          </button>
+        <div className="login-options" style={{ display: 'flex', justifyContent: 'center', padding: '2rem 0' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+            useOneTap
+            theme="filled_blue"
+            shape="pill"
+            width="300"
+          />
         </div>
 
         <p className="login-footer">
