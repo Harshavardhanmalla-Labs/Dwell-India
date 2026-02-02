@@ -5,6 +5,8 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
+      args:
+        - VITE_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     ports:
       - "80:80"
     depends_on:

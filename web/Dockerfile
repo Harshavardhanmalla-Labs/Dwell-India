@@ -4,9 +4,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-# Bake in API URL for production
+# Bake in API URL and Client ID for production
 ARG VITE_API_BASE_URL=/api
+ARG VITE_GOOGLE_CLIENT_ID
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 RUN npm run build
 
 # Stage 2: Serve
